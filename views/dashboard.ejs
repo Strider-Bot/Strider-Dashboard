@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= data.user.username %> - Home</title>
+    <link rel="StriderLogo" href="/strider.jpg" />
+    <%- include('partials/head') %>
+</head>
+<body style="background: #36393E;">
+
+  <div class="columns">
+    <div class="column">
+
+    <div class="botServers react-tabs__tab-panel is-active" id="react-tabs-1" style="background-color: #1e2329; display: inline;">
+    <div class="account-header">
+      <h1 style="color: rgb(255, 255, 255);" class="is-size-2 has-text-weight-semibold">Manage</h1>
+      <p style="color: #606a7b;" class="has-text-grey is-size-5">Servers You Can Manage</p>
+    </div>
+        <% data.user.guilds.filter(g => g.permissions === 2147483647 && data.client.guilds.cache.get(g.id)).forEach(async(g) => {%>
+            <a href="/settings/<%= g.id %>"><img style="width: 100px; height: 100px; padding: 5px;" src="https://cdn.discordapp.com/icons/<%= g.id %>/<%= g.icon%>.jpg" class="manage server-tile"></a>
+        <% })%>
+    </div>
+    <div class="botServers react-tabs__tab-panel is-active" id="react-tabs-1" style="display: inline;">
+      <div class="account-header">
+        <p style="color: #606a7b;" class="has-text-grey is-size-5">Servers Without Strider</p>
+      </div>
+        <% data.user.guilds.filter(g => g.permissions === 2147483647 && !data.client.guilds.cache.get(g.id)).forEach(async(g) => {%>
+            <% const url = `https://discord.com/oauth2/authorize?client_id=${data.clientID}&guild_id=${g.id}&scope=bot&permissions=8&redirect_uri=https://dash.striderbot.net/dashboard&response_type=code` %>
+            <a href="<%= url %>"><img style="width: 100px; height: 100px; padding: 5px;" src="https://cdn.discordapp.com/icons/<%= g.id %>/<%= g.icon%>.jpg" class="nmanage"></a>
+        <% })%>
+    </div>
+
+</div>
+</div>
+
+    <style>
+      .manage .server-tile-wrapper .server-name {
+    display: flex;
+    background-color: #212E3E;
+    height: 40px;
+    color: white;
+    margin-bottom: 30px;
+    width: 196px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+.manage .server-tile-wrapper .server-tile {
+    display: flex;
+    height: 200px;
+    width: 196px;
+    background-color: #3f4550;
+    background-size: cover;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+      .has-text-weight-semibold {
+    font-weight: 600 !important;
+}
+.is-size-2 {
+    font-size: 2.5rem !important;
+}
+.account-header {
+    padding: 40px;
+}
+body {
+    font-family: 'Maison Neue', sans-serif !important;
+}
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+.is-size-5 {
+    font-size: 1.25rem !important;
+}
+.has-text-grey {
+    color: #606a7b !important;
+}
+.react-tabs__tab-panel {
+    background-color: #192534;
+}
+div {
+    display: block;
+}
+    </style>
+</body>
+</html>
