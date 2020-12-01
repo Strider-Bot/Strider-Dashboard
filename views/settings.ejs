@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head style="background: #00005a;">
+    <%- include('partials/head-settings') %>
+    <% if (data.alert) { %>
+        <p><%= data.alert %></p><br>
+    <% } %>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/public/bulma/css/bulma.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="logo" href="/strider.jpg" />
+    <title><%= data.client.guilds.cache.get(data.guildID).name%> - Settings</title>
+    <div class="stats" style="display: inline-block; background-color: #36393E;">
+        <h3 style="display: inline-block;">Server Stats</h3><br>
+        <l>Server: <%= data.client.guilds.cache.get(data.guildID).name%></l><br>
+        <l>Members: <%= data.client.guilds.cache.get(data.guildID).members.cache.filter(m => !m.user.bot).size%></l><br>
+        <l>Bots: <%= data.client.guilds.cache.get(data.guildID).members.cache.filter(m => m.user.bot).size%></l><br>
+    </div>
+</head>
+<style>
+            html {
+            background-color: #1E1E1E !important;
+            font-family: 'Nunito', sans-serif;
+        }
+            input[type=text] {
+            width: 10%;
+            padding: 12px 20px;
+            margin: 40px;
+            box-sizing: border-box;
+            border: none;
+            border-radius: 10px;
+        }
+        label {
+            color: white;
+            margin: 40px;
+        }
+        select {
+            width: 20%;
+            padding: 12px 20px;
+            margin: 20px;
+            box-sizing: border-box;
+            border: none;
+            border-radius: 10px;
+        }
+        button[type="submit"] {
+            background-color: limegreen;
+            border-radius: 40px;
+            height: 50px;
+            width: 100px;
+            border: none;
+            margin: -20px -50px;
+            position:relative;
+            top:50%;
+            left:50%;
+        }
+</style>
+<body style="background: #36393E;">
+    <% const checked = data.log ? "checked" : "" %>
+        <form method="POST" action="/settings/<%= data.guildID %>">
+
+            <label for="prefix">Prefix</label>
+                <input type="text" name="prefix" value="<%= data.server.prefix %>"><br>
+            <label>Enable Logs</label><input type="checkbox" name="logs" id="logs" <%= checked %> ><br>
+            <label>Current Logging Channel</label><h3><%= data.logch ? data.client.channels.cache.get(data.logch).name : "No Logging Channel Set" %></h3>
+            <select name="logch">
+                <%  data.client.guilds.cache.get(data.guildID).channels.cache.filter(c => c.type === "text").forEach(c => { %>
+                    <option value="<%= c.id %>"><%= c.name %></option>
+                <% }) %>
+            </select><br>
+            
+            <br>
+            
+            <button id="submit" type="submit">Submit</button>
+        </form>
+        
+        <footer><%- include('partials/footer') %></footer>
+        
+</body>
+</html>
