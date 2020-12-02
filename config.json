@@ -5,7 +5,7 @@
   "port": "80",
   "clientID": "765088908773818378",
   "clientSecret": "P29xiNWlxf6s9DiKIcLLPx0-n5Dr1RxU",
-  "callbackURL": "https://dash.striderbot.net//auth/callback",
+  "callbackURL": "https://dash.striderbot.net/auth/callback",
   "scope": ["identify", "guilds"]
 }
  
