@@ -158,7 +158,7 @@ app.get("/settings/:guildID", async (req, res) => {
     {},
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
-  await res.render("settings2", {
+  await res.render("settings", {
     data: {
       guildID: req.params.guildID,
       client: client,
@@ -220,7 +220,7 @@ app.post("/settings/:guildID", async (req, res, next) => {
     {},
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
-  await res.render("settings2", {
+  await res.render("settings", {
     data: {
       guildID: req.params.guildID,
       client: client,

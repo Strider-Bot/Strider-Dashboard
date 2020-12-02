@@ -1,86 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
-<head style="background: #00005a;">
-    <%- include('partials/head-settings') %>
-    <% if (data.alert) { %>
-        <p><%= data.alert %></p><br>
-    <% } %>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="/public/bulma/css/bulma.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="logo" href="/strider.jpg" />
-    <title><%= data.client.guilds.cache.get(data.guildID).name%> - Settings</title>
-    <div class="stats" style="display: inline-block; background-color: #36393E;">
-        <h3 style="display: inline-block;">Server Stats</h3><br>
-        <l>Server: <%= data.client.guilds.cache.get(data.guildID).name%></l><br>
-        <l>Members: <%= data.client.guilds.cache.get(data.guildID).members.cache.filter(m => !m.user.bot).size%></l><br>
-        <l>Bots: <%= data.client.guilds.cache.get(data.guildID).members.cache.filter(m => m.user.bot).size%></l><br>
-    </div>
-</head>
-<style>
-            html {
-            background-color: #1E1E1E !important;
-            font-family: 'Nunito', sans-serif;
-        }
-            input[type=text] {
-            width: 10%;
-            padding: 12px 20px;
-            margin: 40px;
-            box-sizing: border-box;
-            border: none;
-            border-radius: 10px;
-        }
-        label {
-            color: white;
-            margin: 40px;
-        }
-        select {
-            width: 20%;
-            padding: 12px 20px;
-            margin: 20px;
-            box-sizing: border-box;
-            border: none;
-            border-radius: 10px;
-        }
-        button[type="submit"] {
-            background-color: limegreen;
-            border-radius: 40px;
-            height: 50px;
-            width: 100px;
-            border: none;
-            margin: -20px -50px;
-            position:relative;
-            top:50%;
-            left:50%;
-        }
-</style>
-<body style="background: #36393E;">
+  <head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="au theme template" />
+    <meta name="author" content="Hau Nguyen" />
+    <meta name="keywords" content="au theme template" />
+
+    <!-- Title Page-->
+    <title>Strider Bot - Dashboard</title>
+
+    <!-- Fontfaces CSS-->
+    <link href="/css/font-face.css" rel="stylesheet" media="all" />
+    <link
+      href="/vendor/font-awesome-4.7/css/font-awesome.min.css"
+      rel="stylesheet"
+      media="all"
+    />
+    <link
+      href="/vendor/font-awesome-5/css/fontawesome-all.min.css"
+      rel="stylesheet"
+      media="all"
+    />
+    <link
+      href="/vendor/mdi-font/css/material-design-iconic-font.min.css"
+      rel="stylesheet"
+      media="all"
+    />
+
+    <!-- Bootstrap CSS-->
+    <link
+      href="/vendor/bootstrap-4.1/bootstrap.min.css"
+      rel="stylesheet"
+      media="all"
+    />
+
+    <!-- Vendor CSS-->
+    <link
+      href="/vendor/animsition/animsition.min.css"
+      rel="stylesheet"
+      media="all"
+    />
+    <link
+      href="/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css"
+      rel="stylesheet"
+      media="all"
+    />
+    <link href="/vendor/wow/animate.css" rel="stylesheet" media="all" />
+    <link
+      href="/vendor/css-hamburgers/hamburgers.min.css"
+      rel="stylesheet"
+      media="all"
+    />
+    <link href="/vendor/slick/slick.css" rel="stylesheet" media="all" />
+    <link href="/vendor/select2/select2.min.css" rel="stylesheet" media="all" />
+    <link
+      href="/vendor/perfect-scrollbar/perfect-scrollbar.css"
+      rel="stylesheet"
+      media="all"
+    />
+
+    <!-- Main CSS-->
+    <link href="/css/theme.css" rel="stylesheet" media="all" />
+  </head>
+
+  <%- include('partials/nav') %>
+
+  <body class="animsition">
+    <div class="page-wrapper">
+      <!-- PAGE CONTAINER-->
+      <div class="page-container">
+        <%- include('partials/header') %>
+
+        <!-- MAIN CONTENT-->
+        <div class="main-content">
+          <div class="section__content section__content--p30">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="overview-wrap">
+                    <h2 class="title-1">Strider Bot</h2>
+                  </div>
+                </div>
+              </div>
+              <div class="row m-t-25">
+                <div class="col-sm-6 col-lg-3">
+                  <div class="overview-item overview-item--c1">
+                    <div class="overview__inner">
+                      <div class="overview-box clearfix">
+                        <div class="icon">
+                          <i class="zmdi zmdi-account-o"></i>
+                        </div>
+                        <div class="text">
+                          <h2><%= data.users %></h2>
+                          <span>Total Users</span>
+                        </div>
+                      </div>
+                      <div class="overview-chart">
+                        <canvas id="widgetChart1"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                  <div class="overview-item overview-item--c2">
+                    <div class="overview__inner">
+                      <div class="overview-box clearfix">
+                        <div class="icon">
+                          <i class="zmdi zmdi-shopping-cart"></i>
+                        </div>
+                        <div class="text">
+                          <h2><%= data.channels %></h2>
+                          <span>Channels</span>
+                        </div>
+                      </div>
+                      <div class="overview-chart">
+                        <canvas id="widgetChart2"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                  <div class="overview-item overview-item--c3">
+                    <div class="overview__inner">
+                      <div class="overview-box clearfix">
+                        <div class="icon">
+                          <i class="zmdi zmdi-calendar-note"></i>
+                        </div>
+                        <div class="text">
+                          <h2><%= data.guilds %></h2>
+                          <span>Servers</span>
+                        </div>
+                      </div>
+                      <div class="overview-chart">
+                        <canvas id="widgetChart3"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
     <% const checked = data.log ? "checked" : "" %>
         <form method="POST" action="/settings/<%= data.guildID %>">
 
             <label for="prefix">Prefix</label>
-                <input type="text" name="prefix" value="<%= data.server.prefix %>"><br>
+                <input type="text" class='form-control' name="prefix" value="<%= data.server.prefix %>"><br>
+                <hr>
             <label>Enable Logs</label><input type="checkbox" name="logs" id="logs" <%= checked %> ><br>
-            <label>Current Logging Channel</label><h3><%= data.logch ? data.client.channels.cache.get(data.logch).name : "No Logging Channel Set" %></h3>
+            <hr>
+            <label>Current Logging Channel:</label><p><%= data.logch ? data.client.channels.cache.get(data.logch).name : "No Logging Channel Set" %></p>
+            <br>
             <select name="logch">
                 <%  data.client.guilds.cache.get(data.guildID).channels.cache.filter(c => c.type === "text").forEach(c => { %>
-                    <option value="<%= c.id %>"><%= c.name %></option>
+                    <option class='form-control' value="<%= c.id %>"><%= c.name %></option>
                 <% }) %>
             </select><br>
-                               <br>
-            <label>Enable Welcome Channel</label><input type="checkbox" name="welcome" id="welcome" <%= checked %> ><br>
-            <label>Current Welcome Channel</label><h3><%= data.welcomech ? data.client.channels.cache.get(data.welcomech).name : "No Welcome Channel Set" %></h3>
+            <hr>
+            <label>Enable Welcome Channel</label><input type="checkbox" name="welcome" id="welcome" <%= checked %> >
+            <hr>
+            <label>Current Welcome Channel:</label><p><%= data.welcomech ? data.client.channels.cache.get(data.welcomech).name : "No Welcome Channel Set" %></p>
             <select name="welcomech">
                 <%  data.client.guilds.cache.get(data.guildID).channels.cache.filter(c => c.type === "text").forEach(w => { %>
                     <option value="<%= w.id %>"><%= w.name %></option>
                 <% }) %>
-            </select><br>
-            <br>    
-            <br>
+            </select>
+            <hr>
             <label>Enable Leave Channel</label><input type="checkbox" name="leave" id="leave" <%= checked %> ><br>
-            <label>Current Leave Channel</label><h3><%= data.leavech ? data.client.channels.cache.get(data.leavech).name : "No Leave Channel Set" %></h3>
+            <hr>
+            <label>Current Leave Channel</label><p><%= data.leavech ? data.client.channels.cache.get(data.leavech).name : "No Leave Channel Set" %></p>
             <select name="leavech">
                 <%  data.client.guilds.cache.get(data.guildID).channels.cache.filter(c => c.type === "text").forEach(l => { %>
                     <option value="<%= l.id %>"><%= l.name %></option>
@@ -88,10 +178,29 @@
             </select><br>
             <br>
             
-            <button id="submit" type="submit">Submit</button>
+            <button class='form-control' id="submit" type="submit">Submit</button>
         </form>
         
-        <footer><%- include('partials/footer') %></footer>
         
-</body>
-</html>
+        <script src="/vendor/jquery-3.2.1.min.js"></script>
+        <!-- Bootstrap JS-->
+        <script src="/vendor/bootstrap-4.1/popper.min.js"></script>
+        <script src="/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+        <!-- Vendor JS       -->
+        <script src="/vendor/slick/slick.min.js"></script>
+        <script src="/vendor/wow/wow.min.js"></script>
+        <script src="/vendor/animsition/animsition.min.js"></script>
+        <script src="/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+        <script src="/vendor/counter-up/jquery.waypoints.min.js"></script>
+        <script src="/vendor/counter-up/jquery.counterup.min.js"></script>
+        <script src="/vendor/circle-progress/circle-progress.min.js"></script>
+        <script src="/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+        <script src="/vendor/chartjs/Chart.bundle.min.js"></script>
+        <script src="/vendor/select2/select2.min.js"></script>
+    
+        <!-- Main JS-->
+        <script src="/js/main.js"></script>
+      </body>
+    </html>
+    <!-- end document-->
+    
