@@ -1,0 +1,29 @@
+{
+  "name": "striderbot-dashboard",
+  "version": "2.0.0",
+  "description": "A simple dashboard for a nice person :)",
+  "main": "index.js",
+  "scripts": {
+    "test": "node .",
+    "prod": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Strider-Bot/Strider-Dashboard.git"
+  },
+  "author": "Dylan James (https://github.com/dylanjamesdev)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Strider-Bot/Strider-Dashboard/issues"
+  },
+  "homepage": "https://github.com/Strider-Bot/Strider-Dashboard#readme",
+  "dependencies": {
+    "discord-oauth2": "^2.6.0",
+    "discord.js": "^12.5.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "mongoose": "^5.11.1",
+    "passport": "^0.4.1",
+    "passport-discord": "^0.1.4"
+  }
+}
