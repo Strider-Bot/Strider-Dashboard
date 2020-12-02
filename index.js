@@ -7,6 +7,8 @@ const express = require('express');
 client.login(token);
 const app = express();
 const logs = require('./models/log.js');
+const leaves = require('./models/leavechannel.js');
+const welcomes = require('./models/welcomechannel.js');
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({
   extended: false
@@ -66,7 +68,6 @@ app.get("/logout", function (req, res) {
 
 app.set('view engine', 'ejs');
 const server = require('./models/server.js');
-const welcome = require('./models/WelcomeChannel.js');
 const doauth = require('discord-oauth2');
 const { access } = require('fs');
 const { profile } = require('console');
@@ -90,19 +91,22 @@ app.get('/settings/:guildID', async(req, res) => {
   if(!client.guilds.cache.get(req.params.guildID).members.cache.get(req.user.id).hasPermission("ADMINISTRATOR")) return res.send(`You don't have permission to view this server. <a href="/dashboard">Return to Dashboard</a>`)
   const s = await server.findOneAndUpdate({guildID: req.params.guildID}, {}, {new: true, upsert: true, setDefaultsOnInsert: true});
   const log = await logs.findOneAndUpdate({guildID: req.params.guildID}, {}, {new: true, upsert: true, setDefaultsOnInsert: true});
-   // const welcome = await welcome.findOneAndUpdate({guildID: req.params.guildID}, {}, {new: true, upsert: true, setDefaultsOnInsert: true});
-  await res.render('settings', {data: { guildID: req.params.guildID, client: client, server: s, callbackURL: callbackURL, clientID: clientID, clientSecret: clientSecret, log: log.logging, logch: log.logchid}});
+    const leave = await leaves.findOneAndUpdate({guildID: req.params.guildID}, {}, {new: true, upsert: true, setDefaultsOnInsert: true});
+        const welcome = await welcomes.findOneAndUpdate({guildID: req.params.guildID}, {}, {new: true, upsert: true, setDefaultsOnInsert: true});
+  await res.render('settings', {data: { guildID: req.params.guildID, client: client, server: s, callbackURL: callbackURL, clientID: clientID, clientSecret: clientSecret, log: log.logging, logch: log.logchid, leave: leave.leave, leavech: leave.leavechannelid, welcome: welcome.welcome, welcomech: welcome.welchid}});
 });
 app.post('/settings/:guildID', async(req, res, next) => {
   const s = await server.findOneAndUpdate({guildID: req.params.guildID}, {prefix: req.body.prefix}, {new: true, upsert: true, setDefaultsOnInsert: true});
   await logs.findOneAndUpdate({guildID: req.params.guildID}, {logging: !req.body.logs ? false : true, logchid: req.body.logch }, {new: true, upsert: true, setDefaultsOnInsert: true});
-  await welcome.findOneAndUpdate({guildID: req.params.guildID}, {welcome: !req.body.welcome ? false : true, welchid: req.body.welchid }, {new: true, upsert: true, setDefaultsOnInsert: true});
+  await leaves.findOneAndUpdate({guildID: req.params.guildID}, {leave: !req.body.leaves ? false : true, leavechannel: req.body.leavechannelid }, {new: true, upsert: true, setDefaultsOnInsert: true});
+    await welcomes.findOneAndUpdate({guildID: req.params.guildID}, {welcome: !req.body.welcomes ? false : true, welchid: req.body.welcheid }, {new: true, upsert: true, setDefaultsOnInsert: true});
   const guild = client.guilds.cache.get(req.params.guildID);
   if(req.body.logs !== null && req.body.logs === "on") console.log("On");
   console.log(req.body.logch);
   const log = await logs.findOneAndUpdate({guildID: req.params.guildID}, {}, {new: true, upsert: true, setDefaultsOnInsert: true});
-  //const welcome = await welcome.findOneAndUpdate({guildID: req.params.guildID}, {}, {new: true, upsert: true, setDefaultsOnInsert: true});
-  await res.render('settings', {data: { guildID: req.params.guildID, client: client, server: s, alert: "Your changes have been saved", log: log.logging, logch: log.logchid}});
+const leave = await leaves.findOneAndUpdate({guildID: req.params.guildID}, {}, {new: true, upsert: true, setDefaultsOnInsert: true});
+  const welcome = await welcomes.findOneAndUpdate({guildID: req.params.guildID}, {}, {new: true, upsert: true, setDefaultsOnInsert: true});
+  await res.render('settings', {data: { guildID: req.params.guildID, client: client, server: s, alert: "Your changes have been saved", log: log.logging, logch: log.logchid, leave: leave.leave, leavech: leave.leavechannelid, welcome: welcome.welcome, welcomech: welcome.welchid}});
 });
 
 client.on('ready', async() => {
