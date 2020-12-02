@@ -24,6 +24,8 @@ app.use(
 );
 
 app.listen(port);
+console.log(`Web is listening on port ${port}`);
+
 const oneverifyboi = require("passport-discord").Strategy;
 const session = require("express-session");
 
@@ -87,6 +89,7 @@ app.get("/logout", function (req, res) {
 });
 
 app.set("view engine", "ejs");
+app.use(express.static(__dirname + "/public"));
 const server = require("./models/server.js");
 const doauth = require("discord-oauth2");
 const { access } = require("fs");
@@ -106,13 +109,23 @@ app.get("/dashboard", async (req, res) => {
       callbackURL: callbackURL,
       clientID: clientID,
       clientSecret: clientSecret,
+      user: req.user,
+      users: client.users.cache.size,
+      channels: client.channels.cache.size,
+      guilds: client.guilds.cache.size,
     },
   });
 });
 app.get("/", async (req, res) => {
-  if (!req.isAuthenticated()) return res.redirect("/auth");
-  if (req.isAuthenticated()) return res.redirect("/dashboard");
-  await res.render("index", { data: { client: client, user: req.user } });
+  res.render("index", {
+    data: {
+      client: client,
+      user: req.user,
+      users: client.users.cache.size,
+      channels: client.channels.cache.size,
+      guilds: client.guilds.cache.size,
+    },
+  });
 });
 app.get("/settings/:guildID", async (req, res) => {
   if (!req.isAuthenticated()) return res.redirect("/auth");
@@ -145,7 +158,7 @@ app.get("/settings/:guildID", async (req, res) => {
     {},
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
-  await res.render("settings", {
+  await res.render("settings2", {
     data: {
       guildID: req.params.guildID,
       client: client,
@@ -159,6 +172,9 @@ app.get("/settings/:guildID", async (req, res) => {
       leavech: leave.leavechannelid,
       welcome: welcome.welcome,
       welcomech: welcome.welchid,
+      users: client.users.cache.size,
+      channels: client.channels.cache.size,
+      guilds: client.guilds.cache.size,
     },
   });
 });
@@ -204,7 +220,7 @@ app.post("/settings/:guildID", async (req, res, next) => {
     {},
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
-  await res.render("settings", {
+  await res.render("settings2", {
     data: {
       guildID: req.params.guildID,
       client: client,
@@ -216,6 +232,9 @@ app.post("/settings/:guildID", async (req, res, next) => {
       leavech: leave.leavechannelid,
       welcome: welcome.welcome,
       welcomech: welcome.welchid,
+      users: client.users.cache.size,
+      channels: client.channels.cache.size,
+      guilds: client.guilds.cache.size,
     },
   });
 });

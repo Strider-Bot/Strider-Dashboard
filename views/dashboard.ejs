@@ -1,92 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= data.user.username %> - Home</title>
-    <link rel="StriderLogo" href="/strider.jpg" />
-    <%- include('partials/head') %>
-</head>
-<body style="background: #36393E;">
+  <head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="au theme template" />
+    <meta name="author" content="Hau Nguyen" />
+    <meta name="keywords" content="au theme template" />
 
-  <div class="columns">
-    <div class="column">
+    <!-- Title Page-->
+    <title>Strider Bot - Dashboard</title>
 
-    <div class="botServers react-tabs__tab-panel is-active" id="react-tabs-1" style="background-color: #1e2329; display: inline;">
-    <div class="account-header">
-      <h1 style="color: rgb(255, 255, 255);" class="is-size-2 has-text-weight-semibold">Manage</h1>
-      <p style="color: #606a7b;" class="has-text-grey is-size-5">Servers You Can Manage</p>
+    <!-- Fontfaces CSS-->
+    <link href="css/font-face.css" rel="stylesheet" media="all" />
+    <link
+      href="vendor/font-awesome-4.7/css/font-awesome.min.css"
+      rel="stylesheet"
+      media="all"
+    />
+    <link
+      href="vendor/font-awesome-5/css/fontawesome-all.min.css"
+      rel="stylesheet"
+      media="all"
+    />
+    <link
+      href="vendor/mdi-font/css/material-design-iconic-font.min.css"
+      rel="stylesheet"
+      media="all"
+    />
+
+    <!-- Bootstrap CSS-->
+    <link
+      href="vendor/bootstrap-4.1/bootstrap.min.css"
+      rel="stylesheet"
+      media="all"
+    />
+
+    <!-- Vendor CSS-->
+    <link
+      href="vendor/animsition/animsition.min.css"
+      rel="stylesheet"
+      media="all"
+    />
+    <link
+      href="vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css"
+      rel="stylesheet"
+      media="all"
+    />
+    <link href="vendor/wow/animate.css" rel="stylesheet" media="all" />
+    <link
+      href="vendor/css-hamburgers/hamburgers.min.css"
+      rel="stylesheet"
+      media="all"
+    />
+    <link href="vendor/slick/slick.css" rel="stylesheet" media="all" />
+    <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all" />
+    <link
+      href="vendor/perfect-scrollbar/perfect-scrollbar.css"
+      rel="stylesheet"
+      media="all"
+    />
+
+    <!-- Main CSS-->
+    <link href="css/theme.css" rel="stylesheet" media="all" />
+  </head>
+
+  <%- include('partials/nav') %>
+
+  <body class="animsition">
+    <div class="page-wrapper">
+      <!-- PAGE CONTAINER-->
+      <div class="page-container">
+        <%- include('partials/header') %>
+
+        <!-- MAIN CONTENT-->
+        <div class="main-content">
+          <div class="section__content section__content--p30">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="overview-wrap">
+                    <h2 class="title-1">Strider Bot</h2>
+                  </div>
+                </div>
+              </div>
+              <div class="row m-t-25">
+                <div class="col-sm-6 col-lg-3">
+                  <div class="overview-item overview-item--c1">
+                    <div class="overview__inner">
+                      <div class="overview-box clearfix">
+                        <div class="icon">
+                          <i class="zmdi zmdi-account-o"></i>
+                        </div>
+                        <div class="text">
+                          <h2><%= data.users %></h2>
+                          <span>Total Users</span>
+                        </div>
+                      </div>
+                      <div class="overview-chart">
+                        <canvas id="widgetChart1"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                  <div class="overview-item overview-item--c2">
+                    <div class="overview__inner">
+                      <div class="overview-box clearfix">
+                        <div class="icon">
+                          <i class="zmdi zmdi-shopping-cart"></i>
+                        </div>
+                        <div class="text">
+                          <h2><%= data.channels %></h2>
+                          <span>Channels</span>
+                        </div>
+                      </div>
+                      <div class="overview-chart">
+                        <canvas id="widgetChart2"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                  <div class="overview-item overview-item--c3">
+                    <div class="overview__inner">
+                      <div class="overview-box clearfix">
+                        <div class="icon">
+                          <i class="zmdi zmdi-calendar-note"></i>
+                        </div>
+                        <div class="text">
+                          <h2><%= data.guilds %></h2>
+                          <span>Servers</span>
+                        </div>
+                      </div>
+                      <div class="overview-chart">
+                        <canvas id="widgetChart3"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <center>
+                </div>
+
+
+
+
+                  <div class="card">
+                      <div class="card-header">
+                          <strong class="card-title">Servers You Can Manage:</strong>
+                      </div>
+                      <div class="card-body">
+                        <% data.user.guilds.filter(g => g.permissions === 2147483647 &&
+                        data.client.guilds.cache.get(g.id)).forEach(async(g) => {%>
+                        <a href="/settings/<%= g.id %>"
+                          ><img
+                            style="width: 100px; height: 100px; padding: 5px"
+                            src="https://cdn.discordapp.com/icons/<%= g.id %>/<%= g.icon%>.jpg"
+                            class="manage server-tile"
+                        /></a>
+                        <% })%>
+                      </p>
+                    </div>
+                </div>
+
+              
+            <div class="card">
+              <div class="card-header">
+                  <strong class="card-title">Servers Without Strider</strong>
+              </div>
+              <div class="card-body">
+                <% data.user.guilds.filter(g => g.permissions === 2147483647 &&
+                !data.client.guilds.cache.get(g.id)).forEach(async(g) => {%> <% const
+                url =
+                `https://discord.com/oauth2/authorize?client_id=${data.clientID}&guild_id=${g.id}&scope=bot&permissions=8&redirect_uri=https://dash.striderbot.net/dashboard&response_type=code`
+                %>
+                <a href="<%= url %>"
+                  ><img
+                    style="width: 100px; height: 100px; padding: 5px"
+                    src="https://cdn.discordapp.com/icons/<%= g.id %>/<%= g.icon%>.jpg"
+                    class="nmanage"
+                /></a>
+                <% })%>
+              </p>
+            </div>
+        </div>
     </div>
-        <% data.user.guilds.filter(g => g.permissions === 2147483647 && data.client.guilds.cache.get(g.id)).forEach(async(g) => {%>
-            <a href="/settings/<%= g.id %>"><img style="width: 100px; height: 100px; padding: 5px;" src="https://cdn.discordapp.com/icons/<%= g.id %>/<%= g.icon%>.jpg" class="manage server-tile"></a>
-        <% })%>
     </div>
-    <div class="botServers react-tabs__tab-panel is-active" id="react-tabs-1" style="display: inline;">
-      <div class="account-header">
-        <p style="color: #606a7b;" class="has-text-grey is-size-5">Servers Without Strider</p>
+                  
+
+        <!-- END MAIN CONTENT-->
+        <!-- END PAGE CONTAINER-->
       </div>
-        <% data.user.guilds.filter(g => g.permissions === 2147483647 && !data.client.guilds.cache.get(g.id)).forEach(async(g) => {%>
-            <% const url = `https://discord.com/oauth2/authorize?client_id=${data.clientID}&guild_id=${g.id}&scope=bot&permissions=8&redirect_uri=https://dash.striderbot.net/dashboard&response_type=code` %>
-            <a href="<%= url %>"><img style="width: 100px; height: 100px; padding: 5px;" src="https://cdn.discordapp.com/icons/<%= g.id %>/<%= g.icon%>.jpg" class="nmanage"></a>
-        <% })%>
     </div>
 
-</div>
-</div>
+    <!-- Jquery JS-->
+    <script src="vendor/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap JS-->
+    <script src="vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <!-- Vendor JS       -->
+    <script src="vendor/slick/slick.min.js"></script>
+    <script src="vendor/wow/wow.min.js"></script>
+    <script src="vendor/animsition/animsition.min.js"></script>
+    <script src="vendor/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <script src="vendor/counter-up/jquery.waypoints.min.js"></script>
+    <script src="vendor/counter-up/jquery.counterup.min.js"></script>
+    <script src="vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="vendor/chartjs/Chart.bundle.min.js"></script>
+    <script src="vendor/select2/select2.min.js"></script>
 
-    <style>
-      .manage .server-tile-wrapper .server-name {
-    display: flex;
-    background-color: #212E3E;
-    height: 40px;
-    color: white;
-    margin-bottom: 30px;
-    width: 196px;
-    margin-left: 15px;
-    margin-right: 15px;
-}
-.manage .server-tile-wrapper .server-tile {
-    display: flex;
-    height: 200px;
-    width: 196px;
-    background-color: #3f4550;
-    background-size: cover;
-    background-position: 50%;
-    background-repeat: no-repeat;
-    margin-left: 15px;
-    margin-right: 15px;
-}
-      .has-text-weight-semibold {
-    font-weight: 600 !important;
-}
-.is-size-2 {
-    font-size: 2.5rem !important;
-}
-.account-header {
-    padding: 40px;
-}
-body {
-    font-family: 'Maison Neue', sans-serif !important;
-}
-p {
-    display: block;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-}
-.is-size-5 {
-    font-size: 1.25rem !important;
-}
-.has-text-grey {
-    color: #606a7b !important;
-}
-.react-tabs__tab-panel {
-    background-color: #192534;
-}
-div {
-    display: block;
-}
-    </style>
-</body>
+    <!-- Main JS-->
+    <script src="js/main.js"></script>
+  </body>
 </html>
+<!-- end document-->
