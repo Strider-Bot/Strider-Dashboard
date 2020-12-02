@@ -69,7 +69,23 @@
                     <option value="<%= c.id %>"><%= c.name %></option>
                 <% }) %>
             </select><br>
-            
+                               <br>
+            <label>Enable Welcome Channel</label><input type="checkbox" name="welcome" id="welcome" <%= checked %> ><br>
+            <label>Current Welcome Channel</label><h3><%= data.welcomech ? data.client.channels.cache.get(data.welcomech).name : "No Welcome Channel Set" %></h3>
+            <select name="welcomech">
+                <%  data.client.guilds.cache.get(data.guildID).channels.cache.filter(c => c.type === "text").forEach(w => { %>
+                    <option value="<%= w.id %>"><%= w.name %></option>
+                <% }) %>
+            </select><br>
+            <br>    
+            <br>
+            <label>Enable Leave Channel</label><input type="checkbox" name="leave" id="leave" <%= checked %> ><br>
+            <label>Current Leave Channel</label><h3><%= data.leavech ? data.client.channels.cache.get(data.leavech).name : "No Leave Channel Set" %></h3>
+            <select name="leavech">
+                <%  data.client.guilds.cache.get(data.guildID).channels.cache.filter(c => c.type === "text").forEach(l => { %>
+                    <option value="<%= l.id %>"><%= l.name %></option>
+                <% }) %>
+            </select><br>
             <br>
             
             <button id="submit" type="submit">Submit</button>
