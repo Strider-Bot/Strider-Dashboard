@@ -8,3 +8,4 @@
   "callbackURL": "http://localhost:3000/auth/callback",
   "scope": ["identify", "guilds"]
 }
+ 
