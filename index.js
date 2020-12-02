@@ -54,7 +54,7 @@ passport.use(
 
 app.use(
   session({
-    secret: "shunceybalba212308102005",
+    secret: "gyutfgdtufatufdfauyfdtuafw62f3wtf26qf75t23qtftdfq57dftq7u2fd7q2tfcd7tq2ft7qfd752fq7tdt7qfad7qtfd68q2fdr6q275d75qd75q75q75di75q",
     resave: false,
     saveUninitialized: false,
   })
@@ -225,7 +225,7 @@ app.post("/settings/:guildID", async (req, res, next) => {
       guildID: req.params.guildID,
       client: client,
       server: s,
-      alert: "Your changes have been saved",
+      alert: "Your Changes Have Been Saved!",
       log: log.logging,
       logch: log.logchid,
       leave: leave.leave,
