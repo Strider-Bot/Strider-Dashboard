@@ -2,6 +2,8 @@ const discord = require("discord.js");
 const passport = require("passport");
 const client = new discord.Client();
 const mongoose = require("mongoose");
+const moment = require('moment');
+require('moment-duration-format');
 const {
   token,
   mongo,
@@ -85,6 +87,31 @@ app.get("/logout", function (req, res) {
   req.session.destroy(() => {
     req.logout();
     res.redirect("/");
+  });
+});
+
+app.get('/stats', (req, res) => {
+  const duration = moment.duration(client.uptime).format(' D [days], H [hrs], m [mins], s [secs]');
+  const members = `${client.users.filter(u => u.id !== '1').size} (${client.users.filter(u => u.id !== '1').filter(u => u.bot).size} bots)`;
+  const textChannels = client.channels.filter(c => c.type === 'text').size;
+  const voiceChannels = client.channels.filter(c => c.type === 'voice').size;
+  const guilds = client.guilds.size;
+  res.render(path.resolve(`${templateDir}${path.sep}stats.ejs`), {
+    bot: client,
+    auth: req.isAuthenticated() ? true : false,
+    user: req.isAuthenticated() ? req.user : null,
+    stats: {
+      servers: guilds,
+      members: members,
+      text: textChannels,
+      voice: voiceChannels,
+      uptime: duration,
+      commands: client.commandsNumber,
+      memoryUsage: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
+      dVersion: Discord.version,
+      nVersion: process.version,
+      bVersion: client.version
+    }
   });
 });
 
