@@ -157,6 +157,7 @@
             <label>Current Logging Channel:</label><p><%= data.logch ? data.client.channels.cache.get(data.logch).name : "No Logging Channel Set" %></p>
             <br>
             <select name="logch">
+              <option value="<%= data.logchid %>"><%= data.logch %></option>
                 <%  data.client.guilds.cache.get(data.guildID).channels.cache.filter(c => c.type === "text").forEach(c => { %>
                     <option class='form-control' value="<%= c.id %>"><%= c.name %></option>
                 <% }) %>
@@ -166,6 +167,7 @@
             <hr>
             <label>Current Welcome Channel:</label><p><%= data.welcomech ? data.client.channels.cache.get(data.welcomech).name : "No Welcome Channel Set" %></p>
             <select name="welcomech">
+               <option value="<%= data.welcomechid %>"><%= data.welcomech %></option>
                 <%  data.client.guilds.cache.get(data.guildID).channels.cache.filter(c => c.type === "text").forEach(w => { %>
                     <option value="<%= w.id %>"><%= w.name %></option>
                 <% }) %>
@@ -175,6 +177,7 @@
             <hr>
             <label>Current Leave Channel</label><p><%= data.leavech ? data.client.channels.cache.get(data.leavech).name : "No Leave Channel Set" %></p>
             <select name="leavech">
+              <option value="<%= data.leavechid %>"><%= data.leavech %></option>
                 <%  data.client.guilds.cache.get(data.guildID).channels.cache.filter(c => c.type === "text").forEach(l => { %>
                     <option value="<%= l.id %>"><%= l.name %></option>
                 <% }) %>
@@ -182,6 +185,8 @@
             <br>
             
             <button class='form-control' id="submit" type="submit">Submit</button>
+            <button type="reset" class="btn btn-danger btn-sm">
+              <i class="fa fa-ban"></i>Reset</button>
         </form>
         
         
