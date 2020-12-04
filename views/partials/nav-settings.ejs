@@ -20,9 +20,18 @@
         <li class="has-sub">
         <a href="/"> <i class="fas fa-home"></i>Home</a>
         </li>
-        <li class='has-sub'>
-          <a href='<%= data.user ? "/logout" : "/dashboard" %>'><i class="fas fa-cogs"></i><%= data.user ? "Logout" : "Dashboard" %></a>
-        </li>
+        <li class="has-sub">
+          <a href="/settings/<%= data.guildID %>"> <i class="fas fa-home"></i>Bot Settings</a>
+          </li>
+          <li class="has-sub">
+            <a href="/information/<%= data.guildID %>"> <i class="fas fa-home"></i>Information</a>
+            </li>
+            <li class="has-sub">
+              <a href="/logs/<%= data.guildID %>"> <i class="fas fa-home"></i>Audit Logs</a>
+              </li>
+              <li class="has-sub">
+                <a href="/logout"> <i class="fas fa-home"></i>Logout</a>
+                </li>
             </li>
           </ul>
         </li>
