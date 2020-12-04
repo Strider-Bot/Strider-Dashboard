@@ -185,9 +185,58 @@
             <br>
             
             <button class='form-control' id="submit" type="submit">Submit</button>
-            <button type="reset" class="btn btn-danger btn-sm">
-              <i class="fa fa-ban"></i>Reset</button>
-        </form>
+        </form><br>
+        <br>
+       
+        <br>
+        <div class="col-lg-3">
+                                <div class="au-card au-card--bg-blue au-card-top-countries m-b-30">
+                                    <div class="au-card-inner">
+                                        <div class="table-responsive">
+                                            <table class="table table-top-countries">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Server Name</td>
+                                                        <td class="text-right"><%= data.client.guilds.cache.get(data.guildID).name %></td>
+                                                    <tr>
+                                                        <td>Server ID</td>
+                                                        <td class="text-right"><%= data.client.guilds.cache.get(data.guildID).id %></td>
+                                                    </tr>
+                                                     <tr>
+                                                        <td>Owner ID</td>
+                                                        <td class="text-right"><%= data.client.guilds.cache.get(data.guildID).ownerID %></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>User Count</td>
+                                                        <td class="text-right"><%= data.client.guilds.cache.get(data.guildID).members.cache.filter(member => !member.user.bot).size %></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Bot Count</td>
+                                                        <td class="text-right"><%= data.client.guilds.cache.get(data.guildID).members.cache.filter(member => member.user.bot).size %></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Partnered</td>
+                                                        <td class="text-right"><%= data.client.guilds.cache.get(data.guildID).partnered %></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Boost Level</td>
+                                                        <td class="text-right"><%= data.client.guilds.cache.get(data.guildID).premiumTier %></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Boosts</td>
+                                                        <td class="text-right"><%= data.client.guilds.cache.get(data.guildID).premiumSubscriptionCount %></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Verification Level</td>
+                                                        <td class="text-right"><%= data.client.guilds.cache.get(data.guildID).verificationLevel %></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
         
         
         <script src="/vendor/jquery-3.2.1.min.js"></script>
