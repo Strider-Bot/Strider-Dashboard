@@ -173,7 +173,7 @@
                                       <table class="table table-borderless table-data3">
                                           <thead>
                                               <tr>
-                                                  <th>Server Infomation</th>
+                                                  <th>Server Information</th>
                                                   <th></th>
                                               </tr>
                                           </thead>
@@ -181,6 +181,9 @@
                                               <tr>
                                                   <td>Server Name</td>
                                                   <td><%= data.client.guilds.cache.get(data.guildID).name %></td>
+                                              </tr>
+                                              <td>Server Description</td>
+                                              <td><%= data.client.guilds.cache.get(data.guildID).description %></td>
                                               </tr>
                                               <tr>
                                                   <td>Server ID</td>
@@ -214,6 +217,7 @@
                                                 <td>Verification Level</td>
                                                 <td><%= data.client.guilds.cache.get(data.guildID).verificationLevel %></td>
                                             </tr>
+                                            <tr>
                                           </tbody>
                                       </table>
                                   </div>
