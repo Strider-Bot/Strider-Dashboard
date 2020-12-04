@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
     <!-- Required meta tags-->
     <meta charset="UTF-8" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <meta name="description" content="au theme template" />
-    <meta name="author" content="Hau Nguyen" />
-    <meta name="keywords" content="au theme template" />
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Strider Dashboard" />
+    <meta property="og:description" content="Strider is a Easy To Use Giveaway and Utilty Bot, Invite Now!" />
+    <meta property="og:url" content="https://dash.striderbot.net" />
+    <meta property="og:image" content="/logo.png" />
 
     <!-- Title Page-->
-    <title>Strider Bot - Dashboard</title>
+    <title>Strider - Dashboard</title>
 
     <!-- Fontfaces CSS-->
     <link href="/css/font-face.css" rel="stylesheet" media="all" />
@@ -68,7 +71,7 @@
     <link href="/css/theme.css" rel="stylesheet" media="all" />
   </head>
 
-  <%- include('partials/nav') %>
+  <%- include('partials/nav-settings') %>
 
   <body class="animsition">
     <div class="page-wrapper">
@@ -83,39 +86,21 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="overview-wrap">
-                    <h2 class="title-1">Strider Bot</h2>
+                    <h2 class="title-1"><%= data.client.guilds.cache.get(data.guildID).name %> Dashboard</h2>
                   </div>
                 </div>
               </div>
               <div class="row m-t-25">
                 <div class="col-sm-6 col-lg-3">
-                  <div class="overview-item overview-item--c1">
-                    <div class="overview__inner">
-                      <div class="overview-box clearfix">
-                        <div class="icon">
-                          <i class="zmdi zmdi-account-o"></i>
-                        </div>
-                        <div class="text">
-                          <h2><%= data.users %></h2>
-                          <span>Total Users</span>
-                        </div>
-                      </div>
-                      <div class="overview-chart">
-                        <canvas id="widgetChart1"></canvas>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-sm-6 col-lg-3">
                   <div class="overview-item overview-item--c2">
                     <div class="overview__inner">
                       <div class="overview-box clearfix">
                         <div class="icon">
-                          <i class="zmdi zmdi-shopping-cart"></i>
+                          <i class="zmdi zmdi-collection-bookmark"></i>
                         </div>
                         <div class="text">
-                          <h2><%= data.channels %></h2>
-                          <span>Channels</span>
+                          <h2><%= data.client.guilds.cache.get(data.guildID).name %></h2>
+                          <span>Server Name</span>
                         </div>
                       </div>
                       <div class="overview-chart">
@@ -125,15 +110,33 @@
                   </div>
                 </div>
                 <div class="col-sm-6 col-lg-3">
+                  <div class="overview-item overview-item--c1">
+                    <div class="overview__inner">
+                      <div class="overview-box clearfix">
+                        <div class="icon">
+                          <i class="zmdi zmdi-account-o"></i>
+                        </div>
+                        <div class="text">
+                          <h2><%= data.client.guilds.cache.get(data.guildID).members.cache.filter(member => !member.user.bot).size %></h2>
+                          <span>User Count</span>
+                        </div>
+                      </div>
+                      <div class="overview-chart">
+                        <canvas id="widgetChart1"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
                   <div class="overview-item overview-item--c3">
                     <div class="overview__inner">
                       <div class="overview-box clearfix">
                         <div class="icon">
-                          <i class="zmdi zmdi-calendar-note"></i>
+                          <i class="zmdi zmdi-memory"></i>
                         </div>
                         <div class="text">
-                          <h2><%= data.guilds %></h2>
-                          <span>Servers</span>
+                          <h2><%= data.client.guilds.cache.get(data.guildID).members.cache.filter(member => member.user.bot).size %></h2>
+                          <span>Bots Count</span>
                         </div>
                       </div>
                       <div class="overview-chart">
@@ -141,8 +144,27 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                  </div>
+                  <div class="col-sm-6 col-lg-3">
+                    <div class="overview-item overview-item--c4">
+                        <div class="overview__inner">
+                            <div class="overview-box clearfix">
+                                <div class="icon">
+                                    <i class="zmdi zmdi-map"></i>
+                                </div>
+                                <div class="text">
+                                  <h2><%= data.client.guilds.cache.get(data.guildID).premiumTier %></h2>
+                                  <span>Boost Level</span>
+                                </div>
+                            </div>
+                            <div class="overview-chart">
+                                <canvas id="widgetChart4"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
 
+<br><br><br>
     <% const checked = data.log ? "checked" : "" %>
         <form method="POST" action="/settings/<%= data.guildID %>">
 
@@ -154,6 +176,7 @@
             <label>Current Logging Channel:</label><p><%= data.logch ? data.client.channels.cache.get(data.logch).name : "No Logging Channel Set" %></p>
             <br>
             <select name="logch">
+              <option value="<%= data.logchid %>"><%= data.logch %></option>
                 <%  data.client.guilds.cache.get(data.guildID).channels.cache.filter(c => c.type === "text").forEach(c => { %>
                     <option class='form-control' value="<%= c.id %>"><%= c.name %></option>
                 <% }) %>
@@ -163,6 +186,7 @@
             <hr>
             <label>Current Welcome Channel:</label><p><%= data.welcomech ? data.client.channels.cache.get(data.welcomech).name : "No Welcome Channel Set" %></p>
             <select name="welcomech">
+               <option value="<%= data.welcomechid %>"><%= data.welcomech %></option>
                 <%  data.client.guilds.cache.get(data.guildID).channels.cache.filter(c => c.type === "text").forEach(w => { %>
                     <option value="<%= w.id %>"><%= w.name %></option>
                 <% }) %>
@@ -172,6 +196,7 @@
             <hr>
             <label>Current Leave Channel</label><p><%= data.leavech ? data.client.channels.cache.get(data.leavech).name : "No Leave Channel Set" %></p>
             <select name="leavech">
+              <option value="<%= data.leavechid %>"><%= data.leavech %></option>
                 <%  data.client.guilds.cache.get(data.guildID).channels.cache.filter(c => c.type === "text").forEach(l => { %>
                     <option value="<%= l.id %>"><%= l.name %></option>
                 <% }) %>
@@ -179,8 +204,7 @@
             <br>
             
             <button class='form-control' id="submit" type="submit">Submit</button>
-        </form>
-        
+        </form><br>
         
         <script src="/vendor/jquery-3.2.1.min.js"></script>
         <!-- Bootstrap JS-->

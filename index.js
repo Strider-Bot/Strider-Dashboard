@@ -2,6 +2,8 @@ const discord = require("discord.js");
 const passport = require("passport");
 const client = new discord.Client();
 const mongoose = require("mongoose");
+const moment = require('moment');
+require('moment-duration-format');
 const {
   token,
   mongo,
@@ -85,6 +87,31 @@ app.get("/logout", function (req, res) {
   req.session.destroy(() => {
     req.logout();
     res.redirect("/");
+  });
+});
+
+app.get('/stats', (req, res) => {
+  const duration = moment.duration(client.uptime).format(' D [days], H [hrs], m [mins], s [secs]');
+  const members = `${client.users.filter(u => u.id !== '1').size} (${client.users.filter(u => u.id !== '1').filter(u => u.bot).size} bots)`;
+  const textChannels = client.channels.filter(c => c.type === 'text').size;
+  const voiceChannels = client.channels.filter(c => c.type === 'voice').size;
+  const guilds = client.guilds.size;
+  res.render(path.resolve(`${templateDir}${path.sep}stats.ejs`), {
+    bot: client,
+    auth: req.isAuthenticated() ? true : false,
+    user: req.isAuthenticated() ? req.user : null,
+    stats: {
+      servers: guilds,
+      members: members,
+      text: textChannels,
+      voice: voiceChannels,
+      uptime: duration,
+      commands: client.commandsNumber,
+      memoryUsage: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
+      dVersion: Discord.version,
+      nVersion: process.version,
+      bVersion: client.version
+    }
   });
 });
 
@@ -221,6 +248,118 @@ app.post("/settings/:guildID", async (req, res, next) => {
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
   await res.render("settings", {
+    data: {
+      guildID: req.params.guildID,
+      client: client,
+      server: s,
+      alert: "Your Changes Have Been Saved!",
+      log: log.logging,
+      logch: log.logchid,
+      leave: leave.leave,
+      leavech: leave.leavechannelid,
+      welcome: welcome.welcome,
+      welcomech: welcome.welchid,
+      users: client.users.cache.size,
+      channels: client.channels.cache.size,
+      guilds: client.guilds.cache.size,
+    },
+  });
+});
+
+app.get("/infomation/:guildID", async (req, res) => {
+  if (!req.isAuthenticated()) return res.redirect("/auth");
+  if (
+    !client.guilds.cache
+      .get(req.params.guildID)
+      .members.cache.get(req.user.id)
+      .hasPermission("ADMINISTRATOR")
+  )
+    return res.send(
+      `You don't have permission to view this server. <a href="/dashboard">Return to Dashboard</a>`
+    );
+  const s = await server.findOneAndUpdate(
+    { guildID: req.params.guildID },
+    {},
+    { new: true, upsert: true, setDefaultsOnInsert: true }
+  );
+  const log = await logs.findOneAndUpdate(
+    { guildID: req.params.guildID },
+    {},
+    { new: true, upsert: true, setDefaultsOnInsert: true }
+  );
+  const leave = await leaves.findOneAndUpdate(
+    { guildID: req.params.guildID },
+    {},
+    { new: true, upsert: true, setDefaultsOnInsert: true }
+  );
+  const welcome = await welcomes.findOneAndUpdate(
+    { guildID: req.params.guildID },
+    {},
+    { new: true, upsert: true, setDefaultsOnInsert: true }
+  );
+  await res.render("infomation", {
+    data: {
+      guildID: req.params.guildID,
+      client: client,
+      server: s,
+      callbackURL: callbackURL,
+      clientID: clientID,
+      clientSecret: clientSecret,
+      log: log.logging,
+      logch: log.logchid,
+      leave: leave.leave,
+      leavech: leave.leavechannelid,
+      welcome: welcome.welcome,
+      welcomech: welcome.welchid,
+      users: client.users.cache.size,
+      channels: client.channels.cache.size,
+      guilds: client.guilds.cache.size,
+    },
+  });
+});
+app.post("/infomation/:guildID", async (req, res, next) => {
+  const s = await server.findOneAndUpdate(
+    { guildID: req.params.guildID },
+    { prefix: req.body.prefix },
+    { new: true, upsert: true, setDefaultsOnInsert: true }
+  );
+  await logs.findOneAndUpdate(
+    { guildID: req.params.guildID },
+    { logging: !req.body.logs ? false : true, logchid: req.body.logch },
+    { new: true, upsert: true, setDefaultsOnInsert: true }
+  );
+  await leaves.findOneAndUpdate(
+    { guildID: req.params.guildID },
+    {
+      leave: !req.body.leaves ? false : true,
+      leavechannel: req.body.leavechannelid,
+    },
+    { new: true, upsert: true, setDefaultsOnInsert: true }
+  );
+  await welcomes.findOneAndUpdate(
+    { guildID: req.params.guildID },
+    { welcome: !req.body.welcomes ? false : true, welchid: req.body.welcheid },
+    { new: true, upsert: true, setDefaultsOnInsert: true }
+  );
+  const guild = client.guilds.cache.get(req.params.guildID);
+  if (req.body.logs !== null && req.body.logs === "on") console.log("On");
+  console.log(req.body.logch);
+  const log = await logs.findOneAndUpdate(
+    { guildID: req.params.guildID },
+    {},
+    { new: true, upsert: true, setDefaultsOnInsert: true }
+  );
+  const leave = await leaves.findOneAndUpdate(
+    { guildID: req.params.guildID },
+    {},
+    { new: true, upsert: true, setDefaultsOnInsert: true }
+  );
+  const welcome = await welcomes.findOneAndUpdate(
+    { guildID: req.params.guildID },
+    {},
+    { new: true, upsert: true, setDefaultsOnInsert: true }
+  );
+  await res.render("infomation", {
     data: {
       guildID: req.params.guildID,
       client: client,
