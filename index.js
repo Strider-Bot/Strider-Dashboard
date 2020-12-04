@@ -297,7 +297,7 @@ app.get("/information/:guildID", async (req, res) => {
     {},
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
-  await res.render("settings", {
+  await res.render("information", {
     data: {
       guildID: req.params.guildID,
       client: client,
@@ -359,7 +359,7 @@ app.post("/information/:guildID", async (req, res, next) => {
     {},
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
-  await res.render("settings", {
+  await res.render("information", {
     data: {
       guildID: req.params.guildID,
       client: client,
@@ -408,7 +408,7 @@ app.get("/logs/:guildID", async (req, res) => {
     {},
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
-  await res.render("settings", {
+  await res.render("logs", {
     data: {
       guildID: req.params.guildID,
       client: client,
@@ -470,7 +470,7 @@ app.post("/logs/:guildID", async (req, res, next) => {
     {},
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
-  await res.render("settings", {
+  await res.render("logs", {
     data: {
       guildID: req.params.guildID,
       client: client,
