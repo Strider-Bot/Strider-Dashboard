@@ -92,7 +92,6 @@ app.get("/logout", function (req, res) {
 
 app.get('/stats', (req, res) => {
   const duration = moment.duration(client.uptime).format(' D [days], H [hrs], m [mins], s [secs]');
-  const members = `${client.users.filter(u => u.id !== '1').size} (${client.users.filter(u => u.id !== '1').filter(u => u.bot).size} bots)`;
   const textChannels = client.channels.filter(c => c.type === 'text').size;
   const voiceChannels = client.channels.filter(c => c.type === 'voice').size;
   const guilds = client.guilds.size;
