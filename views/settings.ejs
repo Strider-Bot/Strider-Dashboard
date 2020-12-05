@@ -166,12 +166,14 @@
 
 <br><br><br>
     <% const checked = data.log ? "checked" : "" %>
+    <% const checkedw = data.welcome ? "checked" : "" %>
+    <% const checkedl = data.leave ? "checked" : "" %>
         <form method="POST" action="/settings/<%= data.guildID %>">
 
             <label for="prefix">Prefix</label>
                 <input type="text" class='form-control' name="prefix" value="<%= data.server.prefix %>"><br>
                 <hr>
-            <label>Enable Logs</label><input type="checkbox" name="logs" id="logs" <%= checked %> ><br>
+            <label>Enable Logs </label><input type="checkbox" name="logs" id="logs" <%= checked %> ><br>
             <hr>
             <label>Current Logging Channel:</label><p><%= data.logch ? data.client.channels.cache.get(data.logch).name : "No Logging Channel Set" %></p>
             <br>
@@ -182,7 +184,7 @@
                 <% }) %>
             </select><br>
             <hr>
-            <label>Enable Welcome Channel</label><input type="checkbox" name="welcome" id="welcome" <%= checked %> >
+            <label>Enable Welcome Channel </label><input type="checkbox" name="welcome" id="welcome" <%= checkedw %> >
             <hr>
             <label>Current Welcome Channel:</label><p><%= data.welcomech ? data.client.channels.cache.get(data.welcomech).name : "No Welcome Channel Set" %></p>
             <select name="welcomech">
@@ -192,7 +194,7 @@
                 <% }) %>
             </select>
             <hr>
-            <label>Enable Leave Channel</label><input type="checkbox" name="leave" id="leave" <%= checked %> ><br>
+            <label>Enable Leave Channel </label><input type="checkbox" name="leave" id="leave" <%= checkedl %> ><br>
             <hr>
             <label>Current Leave Channel</label><p><%= data.leavech ? data.client.channels.cache.get(data.leavech).name : "No Leave Channel Set" %></p>
             <select name="leavech">

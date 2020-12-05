@@ -91,11 +91,8 @@ app.get("/logout", function (req, res) {
 });
 
 app.get('/stats', (req, res) => {
-  const duration = moment.duration(client.uptime).format(' D [days], H [hrs], m [mins], s [secs]');
-  const textChannels = client.channels.filter(c => c.type === 'text').size;
-  const voiceChannels = client.channels.filter(c => c.type === 'voice').size;
   const guilds = client.guilds.size;
-  res.render(path.resolve(`${templateDir}${path.sep}stats.ejs`), {
+  res.render(path.resolve(`./views/stats.ejs`), {
     bot: client,
     auth: req.isAuthenticated() ? true : false,
     user: req.isAuthenticated() ? req.user : null,
