@@ -184,7 +184,7 @@
                 <% }) %>
             </select><br>
             <hr>
-            <label>Enable Welcome Channel </label><input type="checkbox" name="welcome" id="welcome" <%= checkedw %> >
+            <label>Enable Welcome Channel </label><input type="checkbox" name="welcomes" id="welcomes" <%= checkedw %> >
             <hr>
             <label>Current Welcome Channel:</label><p><%= data.welcomech ? data.client.channels.cache.get(data.welcomech).name : "No Welcome Channel Set" %></p>
             <select name="welcomech">
@@ -194,7 +194,7 @@
                 <% }) %>
             </select>
             <hr>
-            <label>Enable Leave Channel </label><input type="checkbox" name="leave" id="leave" <%= checkedl %> ><br>
+            <label>Enable Leave Channel </label><input type="checkbox" name="leaves" id="leaves" <%= checkedl %> ><br>
             <hr>
             <label>Current Leave Channel</label><p><%= data.leavech ? data.client.channels.cache.get(data.leavech).name : "No Leave Channel Set" %></p>
             <select name="leavech">
