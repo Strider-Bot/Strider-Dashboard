@@ -165,10 +165,29 @@
                     </div>
 
 <br><br><br>
+<div class="card>
+<div class="card-header">
+<h3>Audit Logs</h3>
+</div></div>
+<br>
+<hr>
 
-<h3>Dashboard Logs</h3>
-<br>
-<br>
+                  <div class="card">
+                      <div class="card-header">
+                      
+                          <strong class="card-title">Logging Modules:</strong>
+                      </div>
+                      <div class="card-body">
+    <% const checked = data.log ? "checked" : "" %>
+   
+    
+            <label>Enable Logs:   </label><input type="checkbox" name="logs" id="logs" <%= checked %> ><br>
+                        <label>Server Changes:   </label><input type="checkbox" name="logs" id="logs" <%= checked %> ><br>
+                                                <label>User Changes:   </label><input type="checkbox" name="logs" id="logs" <%= checked %> >
+
+                    </div>
+                </div>
+
 <div class="row m-t-30">
   <div class=".col-md-6 .offset-md-3">
       <!-- DATA TABLE-->

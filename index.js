@@ -214,15 +214,13 @@ app.post("/settings/:guildID", async (req, res, next) => {
   );
   await leaves.findOneAndUpdate(
     { guildID: req.params.guildID },
-    {
-      leave: !req.body.leaves ? false : true,
-      leavechannel: req.body.leavechannelid,
-    },
+    { leave: !req.body.leaves ? false : true,
+      leavechannelid: req.body.leavech },
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
   await welcomes.findOneAndUpdate(
     { guildID: req.params.guildID },
-    { welcome: !req.body.welcomes ? false : true, welchid: req.body.welcheid },
+    { welcome: !req.body.welcomes ? false : true, welchid: req.body.welcomech },
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
   const guild = client.guilds.cache.get(req.params.guildID);
