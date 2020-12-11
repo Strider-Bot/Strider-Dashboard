@@ -91,12 +91,8 @@ app.get("/logout", function (req, res) {
 });
 
 app.get('/stats', (req, res) => {
-  const duration = moment.duration(client.uptime).format(' D [days], H [hrs], m [mins], s [secs]');
-  const members = `${client.users.filter(u => u.id !== '1').size} (${client.users.filter(u => u.id !== '1').filter(u => u.bot).size} bots)`;
-  const textChannels = client.channels.filter(c => c.type === 'text').size;
-  const voiceChannels = client.channels.filter(c => c.type === 'voice').size;
   const guilds = client.guilds.size;
-  res.render(path.resolve(`${templateDir}${path.sep}stats.ejs`), {
+  res.render(path.resolve(`./views/stats.ejs`), {
     bot: client,
     auth: req.isAuthenticated() ? true : false,
     user: req.isAuthenticated() ? req.user : null,
@@ -218,15 +214,13 @@ app.post("/settings/:guildID", async (req, res, next) => {
   );
   await leaves.findOneAndUpdate(
     { guildID: req.params.guildID },
-    {
-      leave: !req.body.leaves ? false : true,
-      leavechannel: req.body.leavechannelid,
-    },
+    { leave: !req.body.leaves ? false : true,
+      leavechannelid: req.body.leavech },
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
   await welcomes.findOneAndUpdate(
     { guildID: req.params.guildID },
-    { welcome: !req.body.welcomes ? false : true, welchid: req.body.welcheid },
+    { welcome: !req.body.welcomes ? false : true, welchid: req.body.welcomech },
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
   const guild = client.guilds.cache.get(req.params.guildID);
@@ -418,6 +412,8 @@ app.get("/logs/:guildID", async (req, res) => {
       clientSecret: clientSecret,
       log: log.logging,
       logch: log.logchid,
+      serverupdates: log.serverupdates,
+      serverupdatesid: log.serverupdatesid,
       leave: leave.leave,
       leavech: leave.leavechannelid,
       welcome: welcome.welcome,
@@ -437,6 +433,7 @@ app.post("/logs/:guildID", async (req, res, next) => {
   await logs.findOneAndUpdate(
     { guildID: req.params.guildID },
     { logging: !req.body.logs ? false : true, logchid: req.body.logch },
+    { serverupdates: !req.body.serverupdates ? false : true, serverupdatesid: req.body.serverupdatesid },
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
   await leaves.findOneAndUpdate(
@@ -478,6 +475,8 @@ app.post("/logs/:guildID", async (req, res, next) => {
       alert: "Your Changes Have Been Saved!",
       log: log.logging,
       logch: log.logchid,
+      serverupdates: log.serverupdates,
+      serverupdatesid: log.serverupdatesid,
       leave: leave.leave,
       leavech: leave.leavechannelid,
       welcome: welcome.welcome,
@@ -615,8 +614,8 @@ client.on("message", async (message) => {
       const args = message.content.trim().split(/ +/g);
       const cmd = args[0].slice(prefix.length).toLowerCase();
       if (!message.content.toLowerCase().startsWith(prefix)) return;
-      if (cmd === "test") {
-        message.reply("It Works!");
+      if (cmd === "dashboardstatus") {
+        message.reply("The Dashboard Is Online!\n**Dashboard Node:** Online");
       }
     }
   );

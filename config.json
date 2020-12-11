@@ -1,10 +1,10 @@
 {
-  "token": "",
+  "token": "NzY1MDg4OTA4NzczODE4Mzc4.X4Pukg.3UsqIvJh5DGxAbpRMIGwaoUD9Wc",
   "prefix": "$",
-  "mongo": "mongodb+srv://:@cluster0.z38we.mongodb.net/strider-bannedwords?retryWrites=true&w=majority",
+  "mongo": "mongodb+srv://StriderUser:nypO3E7cnpzP8jO8@cluster0.z38we.mongodb.net/strider-bannedwords?retryWrites=true&w=majority",
   "port": "80",
   "clientID": "765088908773818378",
-  "clientSecret": "",
+  "clientSecret": "P29xiNWlxf6s9DiKIcLLPx0-n5Dr1RxU",
   "callbackURL": "https://dash.striderbot.net/auth/callback",
   "scope": ["identify", "guilds"]
 }

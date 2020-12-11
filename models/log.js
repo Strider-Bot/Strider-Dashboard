@@ -7,7 +7,12 @@ var log = new Schema({
         type: Boolean,
         default: false
     },
-    logchid: String
+    logchid: String,
+        serverupdates: {
+        type: Boolean,
+        default: false
+    },
+    serverupdatesid: String
 })
 
 module.exports = mongoose.model('serverLog', log);
