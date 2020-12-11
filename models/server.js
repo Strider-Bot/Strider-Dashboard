@@ -1,12 +1,20 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+var Schema = mongoose.Schema;
 
-const server = new Schema({
+var server = new Schema({
+    guildID: String,
     prefix: {
         type: String,
         default: "$"
     },
-    guildID: String
-});
+        premium: {
+        type: Boolean,
+        default: false
+    },
+            betatesters: {
+        type: Boolean,
+        default: false
+    }
+})
 
 module.exports = mongoose.model('prefix', server);

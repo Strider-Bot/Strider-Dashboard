@@ -165,38 +165,44 @@
                   </div>
 
 <br><br><br>
+<div class="card">
+  <div class="card-header">
+  
+      <strong class="card-title">Strider Settings:</strong>
     <% const checked = data.log ? "checked" : "" %>
+    <% const checkedw = data.welcome ? "checked" : "" %>
+    <% const checkedl = data.leave ? "checked" : "" %>
         <form method="POST" action="/settings/<%= data.guildID %>">
 
             <label for="prefix">Prefix</label>
                 <input type="text" class='form-control' name="prefix" value="<%= data.server.prefix %>"><br>
                 <hr>
-            <label>Enable Logs</label><input type="checkbox" name="logs" id="logs" <%= checked %> ><br>
+            <label>Enable Logs </label><input type="checkbox" name="logs" id="logs" <%= checked %> ><br>
             <hr>
             <label>Current Logging Channel:</label><p><%= data.logch ? data.client.channels.cache.get(data.logch).name : "No Logging Channel Set" %></p>
             <br>
             <select name="logch">
-              <option value="<%= data.logchid %>"><%= data.logch %></option>
+              <option value="<%= data.logchid %>" selected><%= data.logch ? data.client.channels.cache.get(data.logch).name : "No Logging Channel Set" %></option>
                 <%  data.client.guilds.cache.get(data.guildID).channels.cache.filter(c => c.type === "text").forEach(c => { %>
                     <option class='form-control' value="<%= c.id %>"><%= c.name %></option>
                 <% }) %>
             </select><br>
             <hr>
-            <label>Enable Welcome Channel</label><input type="checkbox" name="welcome" id="welcome" <%= checked %> >
+            <label>Enable Welcome Channel </label><input type="checkbox" name="welcomes" id="welcomes" <%= checkedw %> >
             <hr>
             <label>Current Welcome Channel:</label><p><%= data.welcomech ? data.client.channels.cache.get(data.welcomech).name : "No Welcome Channel Set" %></p>
             <select name="welcomech">
-               <option value="<%= data.welcomechid %>"><%= data.welcomech %></option>
+               <option value="<%= data.welcomechid %>" selected><%= data.welcomech ? data.client.channels.cache.get(data.welcomech).name : "No Welcome Channel Set" %></option>
                 <%  data.client.guilds.cache.get(data.guildID).channels.cache.filter(c => c.type === "text").forEach(w => { %>
                     <option value="<%= w.id %>"><%= w.name %></option>
                 <% }) %>
             </select>
             <hr>
-            <label>Enable Leave Channel</label><input type="checkbox" name="leave" id="leave" <%= checked %> ><br>
+            <label>Enable Leave Channel </label><input type="checkbox" name="leaves" id="leaves" <%= checkedl %> ><br>
             <hr>
             <label>Current Leave Channel</label><p><%= data.leavech ? data.client.channels.cache.get(data.leavech).name : "No Leave Channel Set" %></p>
             <select name="leavech">
-              <option value="<%= data.leavechid %>"><%= data.leavech %></option>
+              <option value="<%= data.leavechid %>" selected><%= data.leavech ? data.client.channels.cache.get(data.leavech).name : "No Leave Channel Set" %></option>
                 <%  data.client.guilds.cache.get(data.guildID).channels.cache.filter(c => c.type === "text").forEach(l => { %>
                     <option value="<%= l.id %>"><%= l.name %></option>
                 <% }) %>
@@ -205,6 +211,8 @@
             
             <button class='form-control' id="submit" type="submit">Submit</button>
         </form><br>
+  </div>
+  </div>
         
         <script src="/vendor/jquery-3.2.1.min.js"></script>
         <!-- Bootstrap JS-->
