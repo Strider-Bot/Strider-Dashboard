@@ -1,0 +1,10 @@
+   _id: mongoose.Schema.Types.ObjectId,
+    GuildID: String,
+    GuildName: String,
+    TargetID: String,
+    TargetTag: String,
+    ModeratorID: String,
+    ModeratorTag: String,
+    InfractionType: String,
+    Reason: String,
+    Time: String
