@@ -27,7 +27,7 @@
             <a href="/information/<%= data.guildID %>"> <i class="fas fa-user-plus"></i>Information</a>
             </li>
             <li class="has-sub">
-              <a href="/logs/<%= data.guildID %>"> <i class="fas fa-book"></i>Audit Logs</a>
+              <a href="/logs/<%= data.guildID %>"> <i class="fas fa-book"></i>Logging</a>
               </li>
               <li class="has-sub">
                 <a href="/logout"> <i class="fab fa-discord"></i>Logout</a>
@@ -67,10 +67,10 @@
                 <a href='/information/<%= data.guildID %>'><i class="fas fa-user-plus"></i>Information</a>
               </li>
               <li class="has-sub">
-                <a href='/logs/<%= data.guildID %>'><i class="fas fa-book"></i>Audit Logs</a>
+                <a href='/logs/<%= data.guildID %>'><i class="fas fa-book"></i>Logging</a>
               </li>
               <li class="has-sub">
-                <a href='https://discord.gg/saxSvhR7GP'><i class="fas fa-question"></i>Support</a>
+                <a href='/giveaways/<%= data.guildID %>'><i class="fas fa-gift"></i>Giveaways</a>
               </li>
               <li>
                 <a href='<%= data.user ? "/logout" : "/auth" %>'><i class='fab fa-discord'></i> <%= data.user ? data.user.username : "Not Authenticated" %></a>

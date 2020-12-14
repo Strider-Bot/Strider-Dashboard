@@ -153,8 +153,8 @@
                                       <i class="zmdi zmdi-map"></i>
                                   </div>
                                   <div class="text">
-                                      <h2><%= data.client.guilds.cache.get(data.guildID).premiumTier %></h2>
-                                      <span>Boost Level</span>
+                                      <h2>0</h2>
+                                      <span>Active Giveaways</span>
                                   </div>
                               </div>
                               <div class="overview-chart">
@@ -174,89 +174,25 @@
                                       <table class="table table-borderless table-data3">
                                           <thead>
                                               <tr>
-                                                  <th>Server Information</th>
-                                                  <th></th>
+                                                  <th>Giveaway Name</th>
+                                                  <th>Prize</th>
+                                                  <th>Winners</th>
+                                                  <th>Time</th>
                                               </tr>
                                           </thead>
                                           <tbody>
                                               <tr>
-                                                  <td>Premium Status</td>
-                                                  <td><%= data.server.premium %></td>
+                                                  <td>Test Giveaways</td>
+                                                  <td>Testing Prize</td>
+                                                  <td>4</td>
+                                                  <td>Mon, Nov 16, 2021 2:42 PM</td>
                                               </tr>
-                                                                                            <tr>
-                                                  <td>Beta Testers</td>
-                                                  <td><%= data.server.betatesters %></td>
-                                              </tr>
-                                          </tbody>
-                                      </table>
-                                  </div>
-
-                            <div class="row m-t-30">
-                              <div class="col-md-12">
-                                  <!-- DATA TABLE-->
-                                  <div class="table-responsive m-b-40">
-                                      <table class="table table-borderless table-data3">
-                                          <thead>
-                                              <tr>
-                                                  <th>Server Statistics</th>
-                                                  <th></th>
-                                              </tr>
-                                          </thead>
-                                          <tbody>
-                                              <tr>
-                                                  <td>Server Name</td>
-                                                  <td><%= data.client.guilds.cache.get(data.guildID).name %></td>
-                                              </tr>
-                                              <td>Server Description</td>
-                                              <td><%= data.client.guilds.cache.get(data.guildID).description %></td>
-                                              </tr>
-                                              <tr>
-                                                  <td>Server ID</td>
-                                                  <td><%= data.client.guilds.cache.get(data.guildID).id %></td>
-                                              </tr>
-                                              <tr>
-                                                  <td>Owner ID</td>
-                                                  <td><%= data.client.guilds.cache.get(data.guildID).ownerID %></td>
-                                              </tr>
-                                              <tr>
-                                                  <td>User Count</td>
-                                                  <td><%= data.client.guilds.cache.get(data.guildID).members.cache.filter(member => !member.user.bot).size %></td>
-                                              </tr>
-                                              <tr>
-                                                  <td>Bot Count</td>
-                                                  <td><%= data.client.guilds.cache.get(data.guildID).members.cache.filter(member => member.user.bot).size %></td>
-                                              </tr>
-                                              <tr>
-                                                  <td>Partnered</td>
-                                                  <td><%= data.client.guilds.cache.get(data.guildID).partnered %></td>
-                                              </tr>
-                                              <tr>
-                                                  <td>Boost Level</td>
-                                                  <td><%= data.client.guilds.cache.get(data.guildID).premiumTier %></td>
-                                              </tr>
-                                              <tr>
-                                                  <td>Boosts</td>
-                                                  <td><%= data.client.guilds.cache.get(data.guildID).premiumSubscriptionCount %></td>
-                                              </tr>
-                                              <tr>
-                                                <td>Verification Level</td>
-                                                <td><%= data.client.guilds.cache.get(data.guildID).verificationLevel %></td>
-                                            </tr>
-                                            <tr>
-                                              <td>AFK Channel ID</td>
-                                              <td><%= data.client.guilds.cache.get(data.guildID).afkChannelID %></td>
-                                          </tr>
-                                        <tr>
-                                          <td>Server Region</td>
-                                          <td><%= data.client.guilds.cache.get(data.guildID).regionml %></td>
-                                      </tr>
-                                            <tr>
                                           </tbody>
                                       </table>
                                   </div>
                      
         
-      
+        
         <script src="/vendor/jquery-3.2.1.min.js"></script>
         <!-- Bootstrap JS-->
         <script src="/vendor/bootstrap-4.1/popper.min.js"></script>
