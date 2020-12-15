@@ -16,8 +16,7 @@ const {
 const express = require("express");
 const app = express();
 const logs = require("./models/log.js");
-const leaves = require("./models/leavechannel.js");
-const welcomes = require("./models/welcomechannel.js");
+const GuildSettings = require("./models/Guild.js");
 const bodyParser = require("body-parser");
 app.use(
   bodyParser.urlencoded({
@@ -171,12 +170,7 @@ app.get("/settings/:guildID", async (req, res) => {
     {},
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
-  const leave = await leaves.findOneAndUpdate(
-    { guildID: req.params.guildID },
-    {},
-    { new: true, upsert: true, setDefaultsOnInsert: true }
-  );
-  const welcome = await welcomes.findOneAndUpdate(
+  const GuildSetting = await GuildSettings.findOneAndUpdate(
     { guildID: req.params.guildID },
     {},
     { new: true, upsert: true, setDefaultsOnInsert: true }
@@ -191,10 +185,10 @@ app.get("/settings/:guildID", async (req, res) => {
       clientSecret: clientSecret,
       log: log.logging,
       logch: log.logchid,
-      leave: leave.leave,
-      leavech: leave.leavechannelid,
-      welcome: welcome.welcome,
-      welcomech: welcome.welchid,
+      leave: GuildSetting.leave,
+      leavech: GuildSetting.leavechannelid,
+      welcome: GuildSetting.welcome,
+      welcomech: GuildSetting.welchid,
       users: client.users.cache.size,
       channels: client.channels.cache.size,
       guilds: client.guilds.cache.size,
@@ -212,15 +206,10 @@ app.post("/settings/:guildID", async (req, res, next) => {
     { logging: !req.body.logs ? false : true, logchid: req.body.logch },
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
-  await leaves.findOneAndUpdate(
-    { guildID: req.params.guildID },
-    { leave: !req.body.leaves ? false : true,
-      leavechannelid: req.body.leavech },
-    { new: true, upsert: true, setDefaultsOnInsert: true }
-  );
-  await welcomes.findOneAndUpdate(
+  await GuildSettings.findOneAndUpdate(
     { guildID: req.params.guildID },
     { welcome: !req.body.welcomes ? false : true, welchid: req.body.welcomech },
+    { leave: !req.body.leaves ? false : true, leavechannelid: req.body.leavech },
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
   const guild = client.guilds.cache.get(req.params.guildID);
@@ -231,12 +220,7 @@ app.post("/settings/:guildID", async (req, res, next) => {
     {},
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
-  const leave = await leaves.findOneAndUpdate(
-    { guildID: req.params.guildID },
-    {},
-    { new: true, upsert: true, setDefaultsOnInsert: true }
-  );
-  const welcome = await welcomes.findOneAndUpdate(
+  const GuildSetting = await GuildSettings.findOneAndUpdate(
     { guildID: req.params.guildID },
     {},
     { new: true, upsert: true, setDefaultsOnInsert: true }
@@ -249,10 +233,10 @@ app.post("/settings/:guildID", async (req, res, next) => {
       alert: "Your Changes Have Been Saved!",
       log: log.logging,
       logch: log.logchid,
-      leave: leave.leave,
-      leavech: leave.leavechannelid,
-      welcome: welcome.welcome,
-      welcomech: welcome.welchid,
+      leave: GuildSetting.leave,
+      leavech: GuildSetting.leavechannelid,
+      welcome: GuildSetting.welcome,
+      welcomech: GuildSetting.welchid,
       users: client.users.cache.size,
       channels: client.channels.cache.size,
       guilds: client.guilds.cache.size,
@@ -281,12 +265,7 @@ app.get("/information/:guildID", async (req, res) => {
     {},
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
-  const leave = await leaves.findOneAndUpdate(
-    { guildID: req.params.guildID },
-    {},
-    { new: true, upsert: true, setDefaultsOnInsert: true }
-  );
-  const welcome = await welcomes.findOneAndUpdate(
+  const GuildSetting = await GuildSettings.findOneAndUpdate(
     { guildID: req.params.guildID },
     {},
     { new: true, upsert: true, setDefaultsOnInsert: true }
@@ -301,10 +280,10 @@ app.get("/information/:guildID", async (req, res) => {
       clientSecret: clientSecret,
       log: log.logging,
       logch: log.logchid,
-      leave: leave.leave,
-      leavech: leave.leavechannelid,
-      welcome: welcome.welcome,
-      welcomech: welcome.welchid,
+      leave: GuildSetting.leave,
+      leavech: GuildSetting.leavechannelid,
+      welcome: GuildSetting.welcome,
+      welcomech: GuildSetting.welchid,
       users: client.users.cache.size,
       channels: client.channels.cache.size,
       guilds: client.guilds.cache.size,
@@ -322,17 +301,10 @@ app.post("/information/:guildID", async (req, res, next) => {
     { logging: !req.body.logs ? false : true, logchid: req.body.logch },
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
-  await leaves.findOneAndUpdate(
+  await GuildSettings.findOneAndUpdate(
     { guildID: req.params.guildID },
-    {
-      leave: !req.body.leaves ? false : true,
-      leavechannel: req.body.leavechannelid,
-    },
-    { new: true, upsert: true, setDefaultsOnInsert: true }
-  );
-  await welcomes.findOneAndUpdate(
-    { guildID: req.params.guildID },
-    { welcome: !req.body.welcomes ? false : true, welchid: req.body.welcheid },
+    { welcome: !req.body.welcomes ? false : true, welchid: req.body.welcomech },
+    { leave: !req.body.leaves ? false : true, leavechannelid: req.body.leavech },
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
   const guild = client.guilds.cache.get(req.params.guildID);
@@ -343,12 +315,7 @@ app.post("/information/:guildID", async (req, res, next) => {
     {},
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
-  const leave = await leaves.findOneAndUpdate(
-    { guildID: req.params.guildID },
-    {},
-    { new: true, upsert: true, setDefaultsOnInsert: true }
-  );
-  const welcome = await welcomes.findOneAndUpdate(
+  const GuildSetting = await GuildSettings.findOneAndUpdate(
     { guildID: req.params.guildID },
     {},
     { new: true, upsert: true, setDefaultsOnInsert: true }
@@ -361,10 +328,10 @@ app.post("/information/:guildID", async (req, res, next) => {
       alert: "Your Changes Have Been Saved!",
       log: log.logging,
       logch: log.logchid,
-      leave: leave.leave,
-      leavech: leave.leavechannelid,
-      welcome: welcome.welcome,
-      welcomech: welcome.welchid,
+      leave: GuildSetting.leave,
+      leavech: GuildSetting.leavechannelid,
+      welcome: GuildSetting.welcome,
+      welcomech: GuildSetting.welchid,
       users: client.users.cache.size,
       channels: client.channels.cache.size,
       guilds: client.guilds.cache.size,
@@ -392,12 +359,7 @@ app.get("/logs/:guildID", async (req, res) => {
     {},
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
-  const leave = await leaves.findOneAndUpdate(
-    { guildID: req.params.guildID },
-    {},
-    { new: true, upsert: true, setDefaultsOnInsert: true }
-  );
-  const welcome = await welcomes.findOneAndUpdate(
+  const GuildSetting = await GuildSettings.findOneAndUpdate(
     { guildID: req.params.guildID },
     {},
     { new: true, upsert: true, setDefaultsOnInsert: true }
@@ -414,10 +376,10 @@ app.get("/logs/:guildID", async (req, res) => {
       logch: log.logchid,
       serverupdates: log.serverupdates,
       serverupdatesid: log.serverupdatesid,
-      leave: leave.leave,
-      leavech: leave.leavechannelid,
-      welcome: welcome.welcome,
-      welcomech: welcome.welchid,
+      leave: GuildSetting.leave,
+      leavech: GuildSetting.leavechannelid,
+      welcome: GuildSetting.welcome,
+      welcomech: GuildSetting.welchid,
       users: client.users.cache.size,
       channels: client.channels.cache.size,
       guilds: client.guilds.cache.size,
@@ -436,17 +398,10 @@ app.post("/logs/:guildID", async (req, res, next) => {
     { serverupdates: !req.body.serverupdates ? false : true, serverupdatesid: req.body.serverupdatesid },
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
-  await leaves.findOneAndUpdate(
+  await GuildSettings.findOneAndUpdate(
     { guildID: req.params.guildID },
-    {
-      leave: !req.body.leaves ? false : true,
-      leavechannel: req.body.leavechannelid,
-    },
-    { new: true, upsert: true, setDefaultsOnInsert: true }
-  );
-  await welcomes.findOneAndUpdate(
-    { guildID: req.params.guildID },
-    { welcome: !req.body.welcomes ? false : true, welchid: req.body.welcheid },
+    { welcome: !req.body.welcomes ? false : true, welchid: req.body.welcomech },
+    { leave: !req.body.leaves ? false : true, leavechannelid: req.body.leavech },
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
   const guild = client.guilds.cache.get(req.params.guildID);
@@ -457,12 +412,7 @@ app.post("/logs/:guildID", async (req, res, next) => {
     {},
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
-  const leave = await leaves.findOneAndUpdate(
-    { guildID: req.params.guildID },
-    {},
-    { new: true, upsert: true, setDefaultsOnInsert: true }
-  );
-  const welcome = await welcomes.findOneAndUpdate(
+  const GuildSetting = await GuildSettings.findOneAndUpdate(
     { guildID: req.params.guildID },
     {},
     { new: true, upsert: true, setDefaultsOnInsert: true }
@@ -477,10 +427,10 @@ app.post("/logs/:guildID", async (req, res, next) => {
       logch: log.logchid,
       serverupdates: log.serverupdates,
       serverupdatesid: log.serverupdatesid,
-      leave: leave.leave,
-      leavech: leave.leavechannelid,
-      welcome: welcome.welcome,
-      welcomech: welcome.welchid,
+      leave: GuildSetting.leave,
+      leavech: GuildSetting.leavechannelid,
+      welcome: GuildSetting.welcome,
+      welcomech: GuildSetting.welchid,
       users: client.users.cache.size,
       channels: client.channels.cache.size,
       guilds: client.guilds.cache.size,
@@ -508,12 +458,7 @@ app.get("/giveaways/:guildID", async (req, res) => {
     {},
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
-  const leave = await leaves.findOneAndUpdate(
-    { guildID: req.params.guildID },
-    {},
-    { new: true, upsert: true, setDefaultsOnInsert: true }
-  );
-  const welcome = await welcomes.findOneAndUpdate(
+  const GuildSetting = await GuildSettings.findOneAndUpdate(
     { guildID: req.params.guildID },
     {},
     { new: true, upsert: true, setDefaultsOnInsert: true }
@@ -528,10 +473,10 @@ app.get("/giveaways/:guildID", async (req, res) => {
       clientSecret: clientSecret,
       log: log.logging,
       logch: log.logchid,
-      leave: leave.leave,
-      leavech: leave.leavechannelid,
-      welcome: welcome.welcome,
-      welcomech: welcome.welchid,
+      leave: GuildSetting.leave,
+      leavech: GuildSetting.leavechannelid,
+      welcome: GuildSetting.welcome,
+      welcomech: GuildSetting.welchid,
       users: client.users.cache.size,
       channels: client.channels.cache.size,
       guilds: client.guilds.cache.size,
@@ -549,17 +494,10 @@ app.post("/giveaways/:guildID", async (req, res, next) => {
     { logging: !req.body.logs ? false : true, logchid: req.body.logch },
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
-  await leaves.findOneAndUpdate(
+  await GuildSettings.findOneAndUpdate(
     { guildID: req.params.guildID },
-    {
-      leave: !req.body.leaves ? false : true,
-      leavechannel: req.body.leavechannelid,
-    },
-    { new: true, upsert: true, setDefaultsOnInsert: true }
-  );
-  await welcomes.findOneAndUpdate(
-    { guildID: req.params.guildID },
-    { welcome: !req.body.welcomes ? false : true, welchid: req.body.welcheid },
+    { welcome: !req.body.welcomes ? false : true, welchid: req.body.welcomech },
+    { leave: !req.body.leaves ? false : true, leavechannelid: req.body.leavech },
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
   const guild = client.guilds.cache.get(req.params.guildID);
@@ -570,12 +508,7 @@ app.post("/giveaways/:guildID", async (req, res, next) => {
     {},
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
-  const leave = await leaves.findOneAndUpdate(
-    { guildID: req.params.guildID },
-    {},
-    { new: true, upsert: true, setDefaultsOnInsert: true }
-  );
-  const welcome = await welcomes.findOneAndUpdate(
+  const GuildSetting = await GuildSettings.findOneAndUpdate(
     { guildID: req.params.guildID },
     {},
     { new: true, upsert: true, setDefaultsOnInsert: true }
@@ -588,10 +521,10 @@ app.post("/giveaways/:guildID", async (req, res, next) => {
       alert: "Your Changes Have Been Saved!",
       log: log.logging,
       logch: log.logchid,
-      leave: leave.leave,
-      leavech: leave.leavechannelid,
-      welcome: welcome.welcome,
-      welcomech: welcome.welchid,
+      leave: GuildSetting.leave,
+      leavech: GuildSetting.leavechannelid,
+      welcome: GuildSetting.welcome,
+      welcomech: GuildSetting.welchid,
       users: client.users.cache.size,
       channels: client.channels.cache.size,
       guilds: client.guilds.cache.size,
