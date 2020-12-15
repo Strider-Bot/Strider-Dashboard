@@ -209,40 +209,34 @@
                     </div>
                 </div>
 
-                <div class="card">
-                  <div class="card-header">
-                  
-                      <strong class="card-title">Audit Logs:</strong>               
-<div class="row m-t-30">
-  <div class=".col-md-6 .offset-md-3">
-      <!-- DATA TABLE-->
-      <div class="table-responsive m-b-40">
-          <table class="table table-borderless table-data3">
-              <thead>
-                  <tr>
-                      <th>Time</th>
-                      <th>User ID</th>
-                      <th>Username</th>
-                      <th>Action</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr>
-                      <td>Mon, Nov 16, 2020 2:42 PM</td>
-                      <td>1234567890123456</td>
-                      <td>Test</td>
-                      <td>Started Making Audit Logs</td>
-                  </tr>
-              </tbody>
-          </table>
-      </div>
-      </div>
-      </div>
-      </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
+<table class="table table" style="color: white" id="dataTable" width="100%" cellspacing="0">
+                           <thead>
+                              <tr>
+                                 <th>ID</th>
+                                 <th>Target Name</th>
+                                 <th>Target ID</th>
+                                 <th>Moderator Name</th>
+                                 <th>Moderator ID</th>
+                                 <th>Type</th>
+                                 <th>Reason</th>
+                                 <th>Time</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <% for(i of inf) { %>
+                              <tr>
+                                 <td><%= i._id %></td>
+                                 <td><%= i.TargetTag %></td>
+                                 <td><%= i.TargetID %></td>
+                                 <td><%= i.ModeratorTag %></td>
+                                 <td><%= i.ModeratorID %></td>
+                                 <td><%= i.InfractionType %></td>
+                                 <td><%= i.Reason %></td>
+                                 <td><%= i.Time %></td>
+                              </tr>
+                         <% } %>
+                           </tbody>
+                        </table>
         
             <strong class="card-title">Server Warnings:</strong>               
 <div class="row m-t-30">
