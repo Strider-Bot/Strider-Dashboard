@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const guildSchema = mongoose.Schema({
   guildID: { type: String, required: true },
   level_up_messages: { type: Boolean, default: false },
+  level_up_messagesid: { type: String, default: null },
   swearWords: { type: Array, default: [] },
   toggle: { type: Boolean, default: false }, //For Swear Words =
   welchid: { type: String, default: null },
@@ -10,8 +11,8 @@ const guildSchema = mongoose.Schema({
   leavechannelid: { type: String, default: null },
   leave: { type: Boolean, default: false },
   ignored_channels: { type: Array, default: [] },
-  Command: { type: String, default: null },
-  Content: { type: String, default: null },
+  Command: { type: Array, default: [] },
+  Content: { type: Array, default: [] },
   warnings: {
     all: { type: Map, of: Object, default: new Map() },
     c: { type: Number, default: 0 }
