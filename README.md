@@ -1,2 +1,5 @@
-# New Developers! - READ THIS -
-Please Submit New Changes To The Development Branch, And Then Make A Pull Request For A Manager To Review.
+# Strider-Dashboard
+Issue: In The Views/settings.ejs the logs save but the rest
+Do not you can see the models in the models folder
+Which has all the varibles you need, all the get and 
+Push are from the index.js
