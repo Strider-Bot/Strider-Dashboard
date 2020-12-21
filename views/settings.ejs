@@ -198,7 +198,7 @@
                 <% }) %>
             </select>
             <hr>
-            <label>Enable Leave Channel </label><input type="checkbox" name="leaves" id="leaves" <%= checkedl %> ><br>
+          <label>Enable Leave Channel </label><input type="checkbox" name="leaves" id="leaves" <%= checkedl %> ><br>
             <hr>
             <label>Current Leave Channel</label><p><%= data.leavech ? data.client.channels.cache.get(data.leavech).name : "No Leave Channel Set" %></p>
             <select name="leavech">
@@ -208,7 +208,6 @@
                 <% }) %>
             </select><br>
             <br>
-            
             <button class='form-control' id="submit" type="submit">Submit</button>
         </form><br>
   </div>

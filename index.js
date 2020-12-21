@@ -1,6 +1,6 @@
 const discord = require("discord.js");
 const passport = require("passport");
-const client = new discord.Client({ ws: { intents: 32511 }, FetchAllUsers: true, fetchAllMembers: true });
+const client = new discord.Client({ fetchAllMembers: true });
 const mongoose = require("mongoose");
 const moment = require('moment');
 require('moment-duration-format');
@@ -55,7 +55,7 @@ passport.use(
 
 app.use(
   session({
-    secret: "gyutfgdtufatufejhsjsisjdfauyfdtuafw62f3wtf26qf75t23qtftdfq57dftq7u2fd7ejejjd7283763738jdjdjjdjejdjjdjdjdjdq2tfcd7tq2ft7qfd752fq7tdt7qfad7qtfd68q2fdr6q275d75qd75q75q75di75qjejdjjdjdbdjj377383837737",
+    secret: "gyutfgdtufatufdfauyfdtuafw62f3wtf26qf75t23qtftdfq57dftq7u2fd7q2tfcd7tq2ft7qfd752fq7tdt7qfad7qtfd68q2fdr6q275d75qd75q75q75di75q",
     resave: false,
     saveUninitialized: false,
   })
@@ -103,7 +103,7 @@ app.get('/stats', (req, res) => {
       uptime: duration,
       commands: client.commandsNumber,
       memoryUsage: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
-      dVersion: discord.version,
+      dVersion: Discord.version,
       nVersion: process.version,
       bVersion: client.version
     }
@@ -119,9 +119,11 @@ const { profile } = require("console");
 const oauth = new doauth();
 mongoose.connect(mongo, {
   useNewUrlParser: true,
+  useCreateIndex: true,
   useUnifiedTopology: true,
-  useFindAndModify: false,
+  useFindAndModify: false
 });
+mongoose.set('returnOriginal', false);
 app.get("/dashboard", async (req, res) => {
   if (!req.isAuthenticated()) return res.redirect("/auth");
   await res.render("dashboard", {

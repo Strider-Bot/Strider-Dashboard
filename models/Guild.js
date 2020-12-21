@@ -2,10 +2,11 @@ const mongoose = require("mongoose");
 
 const guildSchema = mongoose.Schema({
   guildID: { type: String, required: true },
+  messages: { type: Number, default: 0 },
   level_up_messages: { type: Boolean, default: false },
   level_up_messagesid: { type: String, default: null },
   swearWords: { type: Array, default: [] },
-  toggle: { type: Boolean, default: false }, //For Swear Words =
+  toggle: { type: Boolean, default: false }, //For Swear Words
   welchid: { type: String, default: null },
   welcome: { type: Boolean, default: false },
   leavechannelid: { type: String, default: null },
