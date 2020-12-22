@@ -13,6 +13,7 @@ const {
   callbackURL,
   scope,
 } = require("./config.json");
+
 const express = require("express");
 const app = express();
 const logs = require("./models/log.js");
@@ -21,18 +22,30 @@ const bodyParser = require("body-parser");
 app.use(
   bodyParser.urlencoded({
     extended: false,
+  }));
+
+client.on("ready", async () => {
+  console.log(`[WEB STARTUP] Web is connected to Discord's API.`);
+  (async () => {
+    await mongoose
+    .connect(mongo, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+        autoIndex: false,
+        poolSize: 5,
+        family: 4
   })
-);
-
-app.listen(port);
-console.log(`Web is listening on port ${port}`);
-
+ })
+});
+      client.login(token);
 const oneverifyboi = require("passport-discord").Strategy;
 const session = require("express-session");
 
 passport.serializeUser(function (user, done) {
   done(null, user);
 });
+
 passport.deserializeUser(function (obj, done) {
   done(null, obj);
 });
@@ -53,15 +66,17 @@ passport.use(
   )
 );
 
+app.listen(port);
+console.log(`[WEB STARTUP] Web Is Listening On Port ${port}`);
+
 app.use(
   session({
     secret:
-      "gyutfgdtufatufdfauyfdtuafw62f3wtf26qf75t23qtftdfq57dftq7u2fd7q2tfcd7tq2ft7qfd752fq7tdt7qfad7qtfd68q2fdr6q275d75qd75q75q75di75q",
+      "gyutfgdtufatufdfauyfdtuafw62f3wtf26qf75t23qtftdfq57dftq7u2fd7q2tfcd7tq2ft7qftyye55auheguipafeguifeagufeg9ufea5u80a09hj08ha08yh0aihe5y08ihe508d752fq7tdt7qfad7qtfd68q2fdr6q275d75qd75q75q75di75q",
     resave: false,
     saveUninitialized: false,
   })
 );
-
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -118,13 +133,7 @@ const doauth = require("discord-oauth2");
 const { access } = require("fs");
 const { profile } = require("console");
 const oauth = new doauth();
-mongoose.connect(mongo, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
-});
-mongoose.set("returnOriginal", false);
+
 app.get("/dashboard", async (req, res) => {
   if (!req.isAuthenticated()) return res.redirect("/auth");
   await res.render("dashboard", {
@@ -249,7 +258,6 @@ app.post("/settings/:guildID", async (req, res, next) => {
     },
   });
 });
-
 app.get("/information/:guildID", async (req, res) => {
   if (!req.isAuthenticated()) return res.redirect("/auth");
   if (
@@ -549,12 +557,6 @@ app.post("/giveaways/:guildID", async (req, res, next) => {
     },
   });
 });
-
-client.on("ready", async () => {
-  console.log(
-    `${client.user.tag}'s Dashboard is connected to the Discord API.`
-  );
-});
 client.on("message", async (message) => {
   const settings = await server.findOne({ guildID: message.guild.id });
   const prefix = settings.prefix;
@@ -565,5 +567,3 @@ client.on("message", async (message) => {
     message.reply("The Dashboard Is Online!\n**Dashboard Node:** Online");
   }
 });
-
-client.login(token);
