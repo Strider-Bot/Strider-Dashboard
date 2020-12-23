@@ -5,6 +5,8 @@ const guildSchema = mongoose.Schema({
   messages: { type: Number, default: 0 },
   level_up_messages: { type: Boolean, default: false },
   level_up_messagesid: { type: String, default: null },
+  rolejoin: { type: Boolean, default: false },
+  rolejoinid: { type: String, default: null },
   swearWords: { type: Array, default: [] },
   toggle: { type: Boolean, default: false }, //For Swear Words
   welchid: { type: String, default: null },
@@ -20,4 +22,5 @@ const guildSchema = mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('guildSchema', guildSchema);
+let compiledModel = mongoose.model("Guild", guildSchema);
+module.exports = compiledModel;
