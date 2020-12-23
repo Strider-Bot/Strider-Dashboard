@@ -90,9 +90,9 @@ app.get("/logout", function (req, res) {
   });
 });
 
-app.get('/stats', (req, res) => {
+app.get("/stats", (req, res) => {
   const guilds = client.guilds.size;
-  res.render(path.resolve(`./views/stats.ejs`), {
+  res.render(path.resolve("./views/stats.ejs"), {
     bot: client,
     auth: req.isAuthenticated() ? true : false,
     user: req.isAuthenticated() ? req.user : null,
