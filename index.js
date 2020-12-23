@@ -53,7 +53,6 @@ passport.use(
 
 app.listen(port);
 console.log(`[WEB STARTUP] Web Is Listening On Port ${port}`);
-
 app.use(
   session({
     secret:
@@ -82,35 +81,19 @@ app.get(
     res.redirect("/dashboard");
   }
 );
-
 app.get("/logout", function (req, res) {
   req.session.destroy(() => {
     req.logout();
     res.redirect("/");
   });
 });
-
-app.get("/stats", (req, res) => {
-  const guilds = client.guilds.size;
-  res.render(path.resolve("./views/stats.ejs"), {
-    bot: client,
-    auth: req.isAuthenticated() ? true : false,
-    user: req.isAuthenticated() ? req.user : null,
-    stats: {
-      servers: guilds,
-      members: members,
-      text: textChannels,
-      voice: voiceChannels,
-      uptime: duration,
-      commands: client.commandsNumber,
-      memoryUsage: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
-      dVersion: Discord.version,
-      nVersion: process.version,
-      bVersion: client.version
-    }
-  });
+mongoose.connect(mongo, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false
 });
-
+console.log("[MONGOOSE] Connected To Database.")
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 const server = require("./models/server.js");
@@ -118,13 +101,7 @@ const doauth = require("discord-oauth2");
 const { access } = require("fs");
 const { profile } = require("console");
 const oauth = new doauth();
-mongoose.connect(mongo, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false
-});
-mongoose.set('returnOriginal', false);
+mongoose.set("returnOriginal", false);
 app.get("/dashboard", async (req, res) => {
   if (!req.isAuthenticated()) return res.redirect("/auth");
   await res.render("dashboard", {
