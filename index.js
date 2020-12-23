@@ -23,21 +23,6 @@ app.use(
   bodyParser.urlencoded({
     extended: false,
   }));
-
-client.on("ready", async () => {
-  console.log(`[WEB STARTUP] Web is connected to Discord's API.`);
-  (async () => {
-    await mongoose
-    .connect(mongo, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useFindAndModify: false,
-        autoIndex: false,
-        poolSize: 5,
-        family: 4
-  })
- })
-});
       client.login(token);
 const oneverifyboi = require("passport-discord").Strategy;
 const session = require("express-session");
@@ -71,12 +56,8 @@ console.log(`[WEB STARTUP] Web Is Listening On Port ${port}`);
 
 app.use(
   session({
-<<<<<<< HEAD
     secret:
       "gyutfgdtufatufdfauyfdtuafw62f3wtf26qf75t23qtftdfq57dftq7u2fd7q2tfcd7tq2ft7qftyye55auheguipafeguifeagufeg9ufea5u80a09hj08ha08yh0aihe5y08ihe508d752fq7tdt7qfad7qtfd68q2fdr6q275d75qd75q75q75di75q",
-=======
-    secret: "gyutfgdtufatufdfauyfdtuafw62f3wtf26qf75t23qtftdfq57dftq7u2fd7q2tfcd7tq2ft7qfd752fq7tdt7qfad7qtfd68q2fdr6q275d75qd75q75q75di75q",
->>>>>>> parent of 525bd1e... fixed the dashboard status command, you were fetching info weirdly. Mongoose error was explained in the dms
     resave: false,
     saveUninitialized: false,
   })
@@ -137,9 +118,6 @@ const doauth = require("discord-oauth2");
 const { access } = require("fs");
 const { profile } = require("console");
 const oauth = new doauth();
-<<<<<<< HEAD
-
-=======
 mongoose.connect(mongo, {
   useNewUrlParser: true,
   useCreateIndex: true,
@@ -147,7 +125,6 @@ mongoose.connect(mongo, {
   useFindAndModify: false
 });
 mongoose.set('returnOriginal', false);
->>>>>>> parent of 525bd1e... fixed the dashboard status command, you were fetching info weirdly. Mongoose error was explained in the dms
 app.get("/dashboard", async (req, res) => {
   if (!req.isAuthenticated()) return res.redirect("/auth");
   await res.render("dashboard", {
