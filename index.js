@@ -328,11 +328,6 @@ app.get("/logs/:guildID", async (req, res) => {
     return res.send(
       `You don't have permission to view this server. <a href="/dashboard">Return to Dashboard</a>`
     );
-  const s = await server.findOneAndUpdate(
-    { guildID: req.params.guildID },
-    {},
-    { new: true, upsert: true, setDefaultsOnInsert: true }
-  );
   const log = await logs.findOneAndUpdate(
     { guildID: req.params.guildID },
     {},
@@ -342,7 +337,6 @@ app.get("/logs/:guildID", async (req, res) => {
     data: {
       guildID: req.params.guildID,
       client: client,
-      server: s,
       callbackURL: callbackURL,
       clientID: clientID,
       clientSecret: clientSecret,
@@ -355,11 +349,6 @@ app.get("/logs/:guildID", async (req, res) => {
   });
 });
 app.post("/logs/:guildID", async (req, res, next) => {
-  const s = await server.findOneAndUpdate(
-    { guildID: req.params.guildID },
-    { prefix: req.body.prefix },
-    { new: true, upsert: true, setDefaultsOnInsert: true }
-  );
   await logs.findOneAndUpdate(
     { guildID: req.params.guildID },
     {
@@ -389,7 +378,6 @@ app.post("/logs/:guildID", async (req, res, next) => {
     data: {
       guildID: req.params.guildID,
       client: client,
-      server: s,
       alert: "Your Changes Have Been Saved!",
       serverUpdates: log.serverUpdates,
       slogchid: log.slogchid,

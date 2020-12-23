@@ -178,32 +178,20 @@
                           <strong class="card-title">Logging Modules:</strong>
                       </div>
                       <div class="card-body">
-                        <form method="POST" action="/settings/<%= data.guildID %>">
-                        <% const checked = data.log ? "checked" : "" %>
-                        <% const checkedsu = data.serverupdates ? "checked" : "" %>
+                        <form method="POST" action="/logs/<%= data.guildID %>">
+                        <% const checked = data.serverUpdates ? "checked" : "" %>
    
-                        <label>Enable Logs:   </label><input type="checkbox" name="logs" id="logs" <%= checked %> ><br>
+                        <label>Enable Server Updates Logs: </label><input type="checkbox" name="serverUpdates" id="serverUpdates" <%= checked %> ><br>
                         <hr>
-            <label>Current Logging Channel:</label><p><%= data.logch ? data.client.channels.cache.get(data.logch).name : "No Logging Channel Set" %></p>
-            <br>
-            <select name="logch">
-              <option value="<%= data.logchid %>" selected><%= data.logch ? data.client.channels.cache.get(data.logch).name : "No Logging Channel Set" %></option>
+            <label>Current Logging Channel:</label><p><%= data.slogchid ? data.client.channels.cache.get(data.slogchid).name : "No Logging Channel Set" %></p><br>
+            <select name="slogchid">
+              <option value="<%= data.slogchid %>" selected><%= data.slogchid ? data.client.channels.cache.get(data.slogchid).name : "No Logging Channel Set" %></option>
                 <%  data.client.guilds.cache.get(data.guildID).channels.cache.filter(c => c.type === "text").forEach(c => { %>
                     <option class='form-control' value="<%= c.id %>"><%= c.name %></option>
                 <% }) %>
-            </select><br><hr>
-                        <label>Server Updates:   </label><input type="checkbox" name="serverupdates" id="serverupdates" <%= checkedsu %> ><br>
-                        <hr>
-            <label>Current Server Updates Channel:</label><p><%= data.serverupdatesid ? data.client.channels.cache.get(data.serverupdatesid).name : "No Updates Channel Set" %></p>
-            <br>
-            <select name="serverupdatesid">
-              <option value="<%= data.serverupdatesid %>" selected><%= data.serverupdatesid ? data.client.channels.cache.get(data.serverupdatesid).name : "No Updates Channel Set" %></option>
-                <%  data.client.guilds.cache.get(data.guildID).channels.cache.filter(c => c.type === "text").forEach(c => { %>
-                    <option class='form-control' value="<%= c.id %>"><%= c.name %></option>
-                <% }) %>
-            </select><br><hr>
-                                                
-                                                <button class='form-control' id="submit" type="submit">Submit</button>
+            </select><br>
+            
+            <button class='form-control' id="submit" type="submit">Submit</button>
                    </form>
 
                     </div>
