@@ -13,7 +13,6 @@ const {
   callbackURL,
   scope,
 } = require("./config.json");
-
 const express = require("express");
 const app = express();
 const logs = require("./models/log.js");
@@ -24,6 +23,7 @@ app.use(
     extended: false,
   }));
       client.login(token);
+      console.log("[DISCORD API] Connected To Discord API.")
 const oneverifyboi = require("passport-discord").Strategy;
 const session = require("express-session");
 
