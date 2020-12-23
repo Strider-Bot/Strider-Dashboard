@@ -8,3 +8,4 @@
   "callbackURL": "https://dash.striderbot.net/auth/callback",
   "scope": ["identify", "guilds"]
 }
+ 

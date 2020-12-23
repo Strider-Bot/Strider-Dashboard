@@ -2,8 +2,8 @@ const discord = require("discord.js");
 const passport = require("passport");
 const client = new discord.Client({ fetchAllMembers: true });
 const mongoose = require("mongoose");
-const moment = require("moment");
-require("moment-duration-format");
+const moment = require('moment');
+require('moment-duration-format');
 const {
   token,
   mongo,
@@ -71,8 +71,12 @@ console.log(`[WEB STARTUP] Web Is Listening On Port ${port}`);
 
 app.use(
   session({
+<<<<<<< HEAD
     secret:
       "gyutfgdtufatufdfauyfdtuafw62f3wtf26qf75t23qtftdfq57dftq7u2fd7q2tfcd7tq2ft7qftyye55auheguipafeguifeagufeg9ufea5u80a09hj08ha08yh0aihe5y08ihe508d752fq7tdt7qfad7qtfd68q2fdr6q275d75qd75q75q75di75q",
+=======
+    secret: "gyutfgdtufatufdfauyfdtuafw62f3wtf26qf75t23qtftdfq57dftq7u2fd7q2tfcd7tq2ft7qfd752fq7tdt7qfad7qtfd68q2fdr6q275d75qd75q75q75di75q",
+>>>>>>> parent of 525bd1e... fixed the dashboard status command, you were fetching info weirdly. Mongoose error was explained in the dms
     resave: false,
     saveUninitialized: false,
   })
@@ -105,7 +109,7 @@ app.get("/logout", function (req, res) {
   });
 });
 
-app.get("/stats", (req, res) => {
+app.get('/stats', (req, res) => {
   const guilds = client.guilds.size;
   res.render(path.resolve(`./views/stats.ejs`), {
     bot: client,
@@ -121,8 +125,8 @@ app.get("/stats", (req, res) => {
       memoryUsage: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2),
       dVersion: Discord.version,
       nVersion: process.version,
-      bVersion: client.version,
-    },
+      bVersion: client.version
+    }
   });
 });
 
@@ -133,7 +137,17 @@ const doauth = require("discord-oauth2");
 const { access } = require("fs");
 const { profile } = require("console");
 const oauth = new doauth();
+<<<<<<< HEAD
 
+=======
+mongoose.connect(mongo, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false
+});
+mongoose.set('returnOriginal', false);
+>>>>>>> parent of 525bd1e... fixed the dashboard status command, you were fetching info weirdly. Mongoose error was explained in the dms
 app.get("/dashboard", async (req, res) => {
   if (!req.isAuthenticated()) return res.redirect("/auth");
   await res.render("dashboard", {
@@ -221,10 +235,7 @@ app.post("/settings/:guildID", async (req, res, next) => {
   await GuildSettings.findOneAndUpdate(
     { guildID: req.params.guildID },
     { welcome: !req.body.welcomes ? false : true, welchid: req.body.welcomech },
-    {
-      leave: !req.body.leaves ? false : true,
-      leavechannelid: req.body.leavech,
-    },
+    { leave: !req.body.leaves ? false : true, leavechannelid: req.body.leavech },
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
   const guild = client.guilds.cache.get(req.params.guildID);
@@ -318,10 +329,7 @@ app.post("/information/:guildID", async (req, res, next) => {
   await GuildSettings.findOneAndUpdate(
     { guildID: req.params.guildID },
     { welcome: !req.body.welcomes ? false : true, welchid: req.body.welcomech },
-    {
-      leave: !req.body.leaves ? false : true,
-      leavechannelid: req.body.leavech,
-    },
+    { leave: !req.body.leaves ? false : true, leavechannelid: req.body.leavech },
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
   const guild = client.guilds.cache.get(req.params.guildID);
@@ -412,19 +420,13 @@ app.post("/logs/:guildID", async (req, res, next) => {
   await logs.findOneAndUpdate(
     { guildID: req.params.guildID },
     { logging: !req.body.logs ? false : true, logchid: req.body.logch },
-    {
-      serverupdates: !req.body.serverupdates ? false : true,
-      serverupdatesid: req.body.serverupdatesid,
-    },
+    { serverupdates: !req.body.serverupdates ? false : true, serverupdatesid: req.body.serverupdatesid },
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
   await GuildSettings.findOneAndUpdate(
     { guildID: req.params.guildID },
     { welcome: !req.body.welcomes ? false : true, welchid: req.body.welcomech },
-    {
-      leave: !req.body.leaves ? false : true,
-      leavechannelid: req.body.leavech,
-    },
+    { leave: !req.body.leaves ? false : true, leavechannelid: req.body.leavech },
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
   const guild = client.guilds.cache.get(req.params.guildID);
@@ -520,10 +522,7 @@ app.post("/giveaways/:guildID", async (req, res, next) => {
   await GuildSettings.findOneAndUpdate(
     { guildID: req.params.guildID },
     { welcome: !req.body.welcomes ? false : true, welchid: req.body.welcomech },
-    {
-      leave: !req.body.leaves ? false : true,
-      leavechannelid: req.body.leavech,
-    },
+    { leave: !req.body.leaves ? false : true, leavechannelid: req.body.leavech },
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
   const guild = client.guilds.cache.get(req.params.guildID);
@@ -558,12 +557,18 @@ app.post("/giveaways/:guildID", async (req, res, next) => {
   });
 });
 client.on("message", async (message) => {
-  const settings = await server.findOne({ guildID: message.guild.id });
-  const prefix = settings.prefix;
-  const args = message.content.trim().split(/ +/g);
-  const cmd = args[0].slice(prefix.length).toLowerCase();
-  if (!message.content.toLowerCase().startsWith(prefix)) return;
-  if (cmd === "dashboardstatus") {
-    message.reply("The Dashboard Is Online!\n**Dashboard Node:** Online");
-  }
+  server.findOneAndUpdate(
+    { guildID: message.guild.id },
+    {},
+    { new: true, upsert: true, setDefaultsOnInsert: true },
+    async (err, p) => {
+      const prefix = p.prefix;
+      const args = message.content.trim().split(/ +/g);
+      const cmd = args[0].slice(prefix.length).toLowerCase();
+      if (!message.content.toLowerCase().startsWith(prefix)) return;
+      if (cmd === "dashboardstatus") {
+        message.reply("The Dashboard Is Online!\n**Dashboard Node:** Online");
+      }
+    }
+  );
 });
