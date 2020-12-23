@@ -20,5 +20,4 @@ const guildSchema = mongoose.Schema({
   }
 });
 
-let compiledModel = mongoose.model("Guild", guildSchema);
-module.exports = compiledModel;
+module.exports = mongoose.model('guildSchema', guildSchema);

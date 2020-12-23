@@ -23,7 +23,7 @@ app.use(
     extended: false,
   }));
       client.login(token);
-      console.log("[DISCORD API] Connected To Discord API.")
+      console.log("[DISCORD API] Connected To Discord API.");
 const oneverifyboi = require("passport-discord").Strategy;
 const session = require("express-session");
 
@@ -145,11 +145,11 @@ app.get("/settings/:guildID", async (req, res) => {
     {},
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
-  const log = await logs.findOneAndUpdate(
-    { guildID: req.params.guildID },
-    {},
-    { new: true, upsert: true, setDefaultsOnInsert: true }
-  );
+  // const log = await logs.findOneAndUpdate(
+  //   { guildID: req.params.guildID },
+  //   {},
+  //   { new: true, upsert: true, setDefaultsOnInsert: true }
+  // );
   const GuildSetting = await GuildSettings.findOneAndUpdate(
     { guildID: req.params.guildID },
     {},
@@ -163,8 +163,8 @@ app.get("/settings/:guildID", async (req, res) => {
       callbackURL: callbackURL,
       clientID: clientID,
       clientSecret: clientSecret,
-      log: log.logging,
-      logch: log.logchid,
+      // log: log.logging,
+      // logch: log.logchid,
       leave: GuildSetting.leave,
       leavech: GuildSetting.leavechannelid,
       welcome: GuildSetting.welcome,
@@ -188,18 +188,22 @@ app.post("/settings/:guildID", async (req, res, next) => {
   );
   await GuildSettings.findOneAndUpdate(
     { guildID: req.params.guildID },
-    { welcome: !req.body.welcomes ? false : true, welchid: req.body.welcomech },
-    { leave: !req.body.leaves ? false : true, leavechannelid: req.body.leavech },
+    {
+      welcome: !req.body.welcomes ? false : true,
+      welchid: req.body.welcomech,
+      leave: !req.body.leaves ? false : true,
+      leavechannelid: req.body.leavech,
+    },
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
   const guild = client.guilds.cache.get(req.params.guildID);
   if (req.body.logs !== null && req.body.logs === "on") console.log("On");
   console.log(req.body.logch);
-  const log = await logs.findOneAndUpdate(
-    { guildID: req.params.guildID },
-    {},
-    { new: true, upsert: true, setDefaultsOnInsert: true }
-  );
+  // const log = await logs.findOneAndUpdate(
+  //   { guildID: req.params.guildID },
+  //   {},
+  //   { new: true, upsert: true, setDefaultsOnInsert: true }
+  // );
   const GuildSetting = await GuildSettings.findOneAndUpdate(
     { guildID: req.params.guildID },
     {},
@@ -211,8 +215,8 @@ app.post("/settings/:guildID", async (req, res, next) => {
       client: client,
       server: s,
       alert: "Your Changes Have Been Saved!",
-      log: log.logging,
-      logch: log.logchid,
+      // log: log.logging,
+      // logch: log.logchid,
       leave: GuildSetting.leave,
       leavech: GuildSetting.leavechannelid,
       welcome: GuildSetting.welcome,
