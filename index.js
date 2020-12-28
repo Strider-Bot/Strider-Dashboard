@@ -99,7 +99,7 @@ app.use(express.static(__dirname + "/public"));
 const server = require("./models/server.js");
 const doauth = require("discord-oauth2");
 const { access } = require("fs");
-const { profile } = require("console");
+const { profile, timeStamp } = require("console");
 const oauth = new doauth();
 mongoose.set("returnOriginal", false);
 app.get("/dashboard", async (req, res) => {
@@ -167,6 +167,7 @@ app.get("/settings/:guildID", async (req, res) => {
       leavech: GuildSetting.leavechannelid,
       welcome: GuildSetting.welcome,
       welcomech: GuildSetting.welchid,
+      muterole: GuildSetting.muterole,
       users: client.users.cache.size,
       channels: client.channels.cache.size,
       guilds: client.guilds.cache.size,
@@ -191,6 +192,7 @@ app.post("/settings/:guildID", async (req, res, next) => {
       welchid: req.body.welcomech,
       leave: !req.body.leaves ? false : true,
       leavechannelid: req.body.leavech,
+      muterole: req.body.muterole,
     },
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
@@ -217,12 +219,16 @@ app.post("/settings/:guildID", async (req, res, next) => {
       leavech: GuildSetting.leavechannelid,
       welcome: GuildSetting.welcome,
       welcomech: GuildSetting.welchid,
+      muterole: GuildSetting.muterole,
       users: client.users.cache.size,
       channels: client.channels.cache.size,
       guilds: client.guilds.cache.size,
     },
   });
 });
+
+const Levels = require("./models/levels");
+
 app.get("/information/:guildID", async (req, res) => {
   if (!req.isAuthenticated()) return res.redirect("/auth");
   if (
@@ -239,6 +245,7 @@ app.get("/information/:guildID", async (req, res) => {
     {},
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
+  const levelData = await Levels.find({ guildID: req.params.guildID });
   const log = await logs.findOneAndUpdate(
     { guildID: req.params.guildID },
     {},
@@ -258,6 +265,10 @@ app.get("/information/:guildID", async (req, res) => {
       clientID: clientID,
       clientSecret: clientSecret,
       log: log.logging,
+      guild: req.params.guildID,
+      user: req.user,
+      discord_data: req.app.get("client"),
+      Levels: levelData,
       logch: log.logchid,
       leave: GuildSetting.leave,
       leavech: GuildSetting.leavechannelid,
@@ -286,6 +297,7 @@ app.post("/information/:guildID", async (req, res, next) => {
     { leave: !req.body.leaves ? false : true, leavechannelid: req.body.leavech },
     { new: true, upsert: true, setDefaultsOnInsert: true }
   );
+  const levelData = await Levels.find({ guildID: req.params.guildID });
   const guild = client.guilds.cache.get(req.params.guildID);
   if (req.body.logs !== null && req.body.logs === "on") console.log("On");
   console.log(req.body.logch);
@@ -304,6 +316,10 @@ app.post("/information/:guildID", async (req, res, next) => {
       guildID: req.params.guildID,
       client: client,
       server: s,
+      guild: req.params.guildID,
+      user: req.user,
+      discord_data: req.app.get("client"),
+      Levels: levelData,
       alert: "Your Changes Have Been Saved!",
       log: log.logging,
       logch: log.logchid,
