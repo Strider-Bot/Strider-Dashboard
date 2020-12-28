@@ -8,7 +8,7 @@ const guildSchema = mongoose.Schema({
   rolejoin: { type: Boolean, default: false },
   rolejoinid: { type: String, default: null },
   swearWords: { type: Array, default: [] },
-  toggle: { type: Boolean, default: false }, //For Swear Words
+  toggle: { type: Boolean, default: false }, //For Swear Words Toggle
   welchid: { type: String, default: null },
   welcome: { type: Boolean, default: false },
   leavechannelid: { type: String, default: null },
@@ -16,6 +16,7 @@ const guildSchema = mongoose.Schema({
   ignored_channels: { type: Array, default: [] },
   Command: { type: Array, default: [] },
   Content: { type: Array, default: [] },
+  muterole: { type: String, default: null },
   warnings: {
     all: { type: Map, of: Object, default: new Map() },
     c: { type: Number, default: 0 }
